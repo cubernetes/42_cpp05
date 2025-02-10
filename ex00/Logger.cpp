@@ -7,7 +7,6 @@
 #include <unistd.h>
 
 #include "Ansi.hpp"
-#include "Constants.hpp"
 #include "Logger.hpp"
 #include "Repr.hpp"
 #include "Utils.hpp"
@@ -26,13 +25,43 @@ const string &Logger::trace5Prefix = "[ " + ansi::rgbP("TRACE5", 111, 97, 91) + 
 // clang-format on
 
 Logger::Logger(std::ostream &_os, Level _logLevel)
-    : os(_os), logLevel(_logLevel), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel),
-      info(os, INFO, logLevel), debug(os, DEBUG, logLevel), trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel),
-      trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {
-    if (logLevel == DEBUG)
-        debug() << "Initialized Logger with logLevel: " << debug.prefix << std::endl;
-    else if (logLevel == TRACE)
-        debug() << "Initialized Logger with logLevel: " << trace.prefix << std::endl;
+    : os(_os), logLevel(_logLevel), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel), info(os, INFO, logLevel), debug(os, DEBUG, logLevel),
+      trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel), trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {
+    debug() << "Initialized Logger with logLevel: ";
+    switch (logLevel) {
+    case FATAL:
+        debug << fatal.prefix;
+        break;
+    case ERROR:
+        debug << error.prefix;
+        break;
+    case WARNING:
+        debug << warning.prefix;
+        break;
+    case INFO:
+        debug << info.prefix;
+        break;
+    case DEBUG:
+        debug << debug.prefix;
+        break;
+    case TRACE:
+        debug << trace.prefix;
+        break;
+    case TRACE2:
+        debug << trace2.prefix;
+        break;
+    case TRACE3:
+        debug << trace3.prefix;
+        break;
+    case TRACE4:
+        debug << trace4.prefix;
+        break;
+    case TRACE5:
+        debug << trace5.prefix;
+        break;
+    }
+    debug << std::endl;
+
     (void)lastInstance(this);
 }
 
@@ -48,14 +77,15 @@ Logger &Logger::lastInstance(Logger *instance) {
     return *last_instance;
 }
 
+Logger::~Logger() { (void)lastInstance(&fallbackInstance); }
+
 Logger::Logger()
-    : os(std::cout), logLevel(INFO), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel),
-      info(os, INFO, logLevel), debug(os, DEBUG, logLevel), trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel),
-      trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {}
+    : os(std::cout), logLevel(INFO), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel), info(os, INFO, logLevel), debug(os, DEBUG, logLevel),
+      trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel), trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {}
 
 Logger::Logger(const Logger &other)
-    : os(other.os), logLevel(other.logLevel), fatal(other.fatal), error(other.error), warning(other.warning), info(other.info),
-      debug(other.debug), trace(other.trace), trace2(other.trace2), trace3(other.trace3), trace4(other.trace4), trace5(other.trace5) {}
+    : os(other.os), logLevel(other.logLevel), fatal(other.fatal), error(other.error), warning(other.warning), info(other.info), debug(other.debug), trace(other.trace), trace2(other.trace2),
+      trace3(other.trace3), trace4(other.trace4), trace5(other.trace5) {}
 
 Logger &Logger::operator=(Logger &other) {
     (void)other;
@@ -68,8 +98,7 @@ void Logger::swap(Logger &other) /* noexcept */ {
     // kinda wrong, but can't swap stream in c++98, so yeah, just to make it compile
 }
 
-Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel)
-    : prefix(), os(_os), thisLevel(_thisLevel), logLevel(_logLevel) {
+Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel) : prefix(), os(_os), thisLevel(_thisLevel), logLevel(_logLevel) {
     switch (thisLevel) {
     case FATAL:
         prefix = fatalPrefix;

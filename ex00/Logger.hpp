@@ -31,12 +31,15 @@ class Logger {
         StreamWrapper &operator<<(std::ostream &(*manip)(std::ostream &));
         std::string prefix;
 
+        const std::string &getPrefix() const { return prefix; }
+
       private:
         std::ostream &os;
         Level thisLevel;
         Level &logLevel;
     };
 
+    ~Logger();
     Logger(std::ostream &_os, Level _logLevel = INFO);
     Logger();
     Logger(const Logger &other);

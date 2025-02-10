@@ -22,8 +22,8 @@ class Reflection {
     void swap(Reflection &other);
 
     // set by the REFLECT macro
-    const char *_class;
-    string getClass(const Reflection &v) { return v._class; }
+    static const char *_class;
+    virtual const string getClass(const Reflection &) const { return _class; }
 
     // populated by the REFELECT macro
     Members _members;

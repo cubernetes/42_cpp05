@@ -2,7 +2,6 @@
 #include <string>
 #include <utility>
 
-#include "Constants.hpp"
 #include "Logger.hpp"
 #include "Reflection.hpp"
 #include "Repr.hpp"
@@ -11,14 +10,16 @@
 using std::string;
 using std::swap;
 
-Reflection::Reflection() : _class(), _members() {}
-Reflection::Reflection(const Reflection &other) : _class(other._class), _members(other._members) {}
+Reflection::Reflection() : _members() {}
+Reflection::Reflection(const Reflection &other) : _members(other._members) {}
 Reflection &Reflection::operator=(Reflection other) {
     ::swap(*this, other);
     return *this;
 }
-void Reflection::swap(Reflection &other) /* noexcept */ { ::swap(_class, other._class); }
+void Reflection::swap(Reflection &other) /* noexcept */ { ::swap(_members, other._members); }
 void swap(Reflection &a, Reflection &b) { a.swap(b); }
+
+const char *Reflection::_class = "";
 
 string Reflection::reprStruct(string name, Members members) const {
     std::stringstream out;
@@ -44,4 +45,4 @@ string Reflection::reprStruct(string name, Members members) const {
 
 void Reflection::reflectMember(ReprClosure reprClosure, const char *memberId, const void *memberPtr) { _members[memberId] = std::make_pair(reprClosure, memberPtr); }
 
-string Reflection::repr() const { return reprStruct(_class, _members); }
+string Reflection::repr() const { return reprStruct(getClass(*this), _members); }

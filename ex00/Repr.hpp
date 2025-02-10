@@ -104,16 +104,16 @@ template <typename T> static inline string reprArr(const T *value, size_t size) 
 
 ///// repr partial template specializations
 
-#define INT_REPR(T)                                                                                                                        \
-    template <> struct ReprWrapper<T> {                                                                                                    \
-        static inline string repr(const T &value) {                                                                                        \
-            std::ostringstream oss;                                                                                                        \
-            oss << value;                                                                                                                  \
-            if (Logger::lastInstance().istrace5())                                                                                         \
-                return oss.str();                                                                                                          \
-            else                                                                                                                           \
-                return num(oss.str());                                                                                                     \
-        }                                                                                                                                  \
+#define INT_REPR(T)                                                                                                                                                                                    \
+    template <> struct ReprWrapper<T> {                                                                                                                                                                \
+        static inline string repr(const T &value) {                                                                                                                                                    \
+            std::ostringstream oss;                                                                                                                                                                    \
+            oss << value;                                                                                                                                                                              \
+            if (Logger::lastInstance().istrace5())                                                                                                                                                     \
+                return oss.str();                                                                                                                                                                      \
+            else                                                                                                                                                                                       \
+                return num(oss.str());                                                                                                                                                                 \
+        }                                                                                                                                                                                              \
     }
 
 INT_REPR(int);
@@ -146,8 +146,7 @@ template <> struct ReprWrapper<string> {
                 return str(Utils::jsonEscape(value)) + (Logger::lastInstance().istrace4() ? punct("s") : "");
             else // for trace, debug, info, warning, error, fatal -> we don't want to see the
                  // whole (possibly huge) string
-                return str(Utils::jsonEscape(Utils::ellipsisize(value, Constants::loggingMaxStringLen))) +
-                       (Logger::lastInstance().istrace4() ? punct("s") : "");
+                return str(Utils::jsonEscape(Utils::ellipsisize(value, Constants::loggingMaxStringLen))) + (Logger::lastInstance().istrace4() ? punct("s") : "");
         }
     }
 };
@@ -190,14 +189,14 @@ template <> struct ReprWrapper<char *> {
 };
 
 // TODO: @timo: escape for char literal
-#define CHAR_REPR(T)                                                                                                                       \
-    template <> struct ReprWrapper<T> {                                                                                                    \
-        static inline string repr(const T &value) {                                                                                        \
-            if (Logger::lastInstance().istrace5())                                                                                         \
-                return string("\"") + Utils::jsonEscape(string(1, static_cast<char>(value))) + "\"";                                       \
-            else                                                                                                                           \
-                return chr(string("'") + (value == '\\' ? "\\\\" : value == '\'' ? "\\'" : string(1, static_cast<char>(value))) + "'");    \
-        }                                                                                                                                  \
+#define CHAR_REPR(T)                                                                                                                                                                                   \
+    template <> struct ReprWrapper<T> {                                                                                                                                                                \
+        static inline string repr(const T &value) {                                                                                                                                                    \
+            if (Logger::lastInstance().istrace5())                                                                                                                                                     \
+                return string("\"") + Utils::jsonEscape(string(1, static_cast<char>(value))) + "\"";                                                                                                   \
+            else                                                                                                                                                                                       \
+                return chr(string("'") + (value == '\\' ? "\\\\" : value == '\'' ? "\\'" : string(1, static_cast<char>(value))) + "'");                                                                \
+        }                                                                                                                                                                                              \
     }
 
 CHAR_REPR(char);
@@ -206,53 +205,52 @@ CHAR_REPR(signed char);
 
 #define MAKE_MEMBER_INIT_LIST(_, name) , name()
 #define MAKE_DECL(type, name) type name;
-#define MAKE_REPR_FN(_, name)                                                                                                              \
+#define MAKE_REPR_FN(_, name)                                                                                                                                                                          \
     string CAT(repr_, name)() const { return ::repr(name); }
 #define MAKE_ASSIGN_GETTER(_, name) singleton.name = value.CAT(get, name)();
 #define MAKE_ASSIGN_MEMBER(_, name) singleton.name = value.name;
 #define MAKE_REFLECT(_, name) members[#name] = std::make_pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
-#define POST_REFLECT_GETTER(clsId, ...)                                                                                                    \
-    static inline string getClass(const clsId &v) {                                                                                        \
-        (void)v;                                                                                                                           \
-        return #clsId;                                                                                                                     \
-    }                                                                                                                                      \
-    template <> struct ReprWrapper<clsId> : public Reflection {                                                                            \
-        void reflect() {}                                                                                                                  \
-        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                     \
-        int uniqueNameMustComeFirst;                                                                                                       \
-        FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                              \
-        FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                           \
-        static inline string repr(const clsId &value) {                                                                                    \
-            (void)value;                                                                                                                   \
-            static ReprWrapper<clsId> singleton;                                                                                           \
-            FOR_EACH_PAIR(MAKE_ASSIGN_GETTER, __VA_ARGS__)                                                                                 \
-            Members members;                                                                                                               \
-            FOR_EACH_PAIR(MAKE_REFLECT, __VA_ARGS__)                                                                                       \
-            return singleton.reprStruct(#clsId, members);                                                                                  \
-        }                                                                                                                                  \
+#define POST_REFLECT_GETTER(clsId, ...)                                                                                                                                                                \
+    static inline string getClass(const clsId &v) {                                                                                                                                                    \
+        (void)v;                                                                                                                                                                                       \
+        return #clsId;                                                                                                                                                                                 \
+    }                                                                                                                                                                                                  \
+    template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
+        void reflect() {}                                                                                                                                                                              \
+        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                                                 \
+        int uniqueNameMustComeFirst;                                                                                                                                                                   \
+        FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
+        FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
+        static inline string repr(const clsId &value) {                                                                                                                                                \
+            (void)value;                                                                                                                                                                               \
+            static ReprWrapper<clsId> singleton;                                                                                                                                                       \
+            FOR_EACH_PAIR(MAKE_ASSIGN_GETTER, __VA_ARGS__)                                                                                                                                             \
+            Members members;                                                                                                                                                                           \
+            FOR_EACH_PAIR(MAKE_REFLECT, __VA_ARGS__)                                                                                                                                                   \
+            return singleton.reprStruct(#clsId, members);                                                                                                                                              \
+        }                                                                                                                                                                                              \
     }
-#define POST_REFLECT_MEMBER(clsId, ...)                                                                                                    \
-    static inline string getClass(const clsId &v) {                                                                                        \
-        (void)v;                                                                                                                           \
-        return #clsId;                                                                                                                     \
-    }                                                                                                                                      \
-    template <> struct ReprWrapper<clsId> : public Reflection {                                                                            \
-        void reflect() {}                                                                                                                  \
-        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                     \
-        ReprWrapper(const ReprWrapper &other)                                                                                              \
-            : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                            \
-        ReprWrapper &operator=(const ReprWrapper &) { return *this; }                                                                      \
-        int uniqueNameMustComeFirst;                                                                                                       \
-        FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                              \
-        FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                           \
-        static inline string repr(const clsId &value) {                                                                                    \
-            (void)value;                                                                                                                   \
-            static ReprWrapper<clsId> singleton;                                                                                           \
-            FOR_EACH_PAIR(MAKE_ASSIGN_MEMBER, __VA_ARGS__)                                                                                 \
-            Members members;                                                                                                               \
-            FOR_EACH_PAIR(MAKE_REFLECT, __VA_ARGS__)                                                                                       \
-            return singleton.reprStruct(#clsId, members);                                                                                  \
-        }                                                                                                                                  \
+#define POST_REFLECT_MEMBER(clsId, ...)                                                                                                                                                                \
+    static inline string getClass(const clsId &v) {                                                                                                                                                    \
+        (void)v;                                                                                                                                                                                       \
+        return #clsId;                                                                                                                                                                                 \
+    }                                                                                                                                                                                                  \
+    template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
+        void reflect() {}                                                                                                                                                                              \
+        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                                                 \
+        ReprWrapper(const ReprWrapper &other) : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                      \
+        ReprWrapper &operator=(const ReprWrapper &) { return *this; }                                                                                                                                  \
+        int uniqueNameMustComeFirst;                                                                                                                                                                   \
+        FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
+        FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
+        static inline string repr(const clsId &value) {                                                                                                                                                \
+            (void)value;                                                                                                                                                                               \
+            static ReprWrapper<clsId> singleton;                                                                                                                                                       \
+            FOR_EACH_PAIR(MAKE_ASSIGN_MEMBER, __VA_ARGS__)                                                                                                                                             \
+            Members members;                                                                                                                                                                           \
+            FOR_EACH_PAIR(MAKE_REFLECT, __VA_ARGS__)                                                                                                                                                   \
+            return singleton.reprStruct(#clsId, members);                                                                                                                                              \
+        }                                                                                                                                                                                              \
     }
 
 // for vector
@@ -430,8 +428,7 @@ template <typename F, typename S> struct ReprWrapper<pair<F, S> > {
             oss << kwrd("std") + punct("::") + kwrd("pair") + punct("(");
         else
             oss << punct("(");
-        oss << ReprWrapper<F>::repr(value.first) << (Logger::lastInstance().istrace5() ? ", " : punct(", "))
-            << ReprWrapper<S>::repr(value.second);
+        oss << ReprWrapper<F>::repr(value.first) << (Logger::lastInstance().istrace5() ? ", " : punct(", ")) << ReprWrapper<S>::repr(value.second);
         if (Logger::lastInstance().istrace5())
             oss << "]";
         else
@@ -470,25 +467,24 @@ template <typename T> struct ReprWrapper<set<T> > {
     }
 };
 
-// to print using `std::cout << ...'
+// to print using `std::cout << ...' or `Logger::StreamWrapper << ...'
 template <typename T> static inline std::ostream &operator<<(std::ostream &os, const vector<T> &val) { return os << repr(val); }
-
 template <typename T> static inline std::ostream &operator<<(std::ostream &os, const deque<T> &val) { return os << repr(val); }
-
 template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const map<K, V> &val) { return os << repr(val); }
-template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const map<K, V, C> &val) {
-    return os << repr(val);
-}
-
-template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const multimap<K, V> &val) {
-    return os << repr(val);
-}
-
-template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const pair<F, S> &val) {
-    return os << repr(val);
-}
-
+template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const map<K, V, C> &val) { return os << repr(val); }
+template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const multimap<K, V> &val) { return os << repr(val); }
+template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const pair<F, S> &val) { return os << repr(val); }
 template <typename T> static inline std::ostream &operator<<(std::ostream &os, const set<T> &val) { return os << repr(val); }
+
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T &val) { return os << repr(val); }
+// template <typename T, std::size_t N> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T (&val)[N]) { return os << reprArr(val, N); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const vector<T> &val) { return os << repr(val); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const deque<T> &val) { return os << repr(val); }
+// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const map<K, V> &val) { return os << repr(val); }
+// template <typename K, typename V, typename C> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const map<K, V, C> &val) { return os << repr(val); }
+// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const multimap<K, V> &val) { return os << repr(val); }
+// template <typename F, typename S> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const pair<F, S> &val) { return os << repr(val); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const set<T> &val) { return os << repr(val); }
 
 // kinda belongs into Logger, but can't do that because it makes things SUPER ugly
 // (circular dependencies and so on) extern stuff
@@ -496,104 +492,155 @@ template <typename T> static inline std::ostream &operator<<(std::ostream &os, c
 
 #include "MacroMagic.h"
 
-#define CURRENT_TRACE_STREAM                                                                                                               \
-    (log.istrace5() ? log.trace5()                                                                                                         \
-                    : (log.istrace4() ? log.trace4()                                                                                       \
-                                      : (log.istrace3() ? log.trace3()                                                                     \
-                                                        : (log.istrace2() ? log.trace2() : (log.istrace() ? log.trace() : log.trace())))))
+#define CURRENT_TRACE_STREAM                                                                                                                                                                           \
+    (log.istrace5() ? log.trace5() : (log.istrace4() ? log.trace4() : (log.istrace3() ? log.trace3() : (log.istrace2() ? log.trace2() : (log.istrace() ? log.trace() : log.trace())))))
 
-#define TRACE_COPY_ASSIGN_OP                                                                                                               \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        oss << "Calling copy assignment operator: ";                                                                                       \
-        if (log.istrace5())                                                                                                                \
-            oss << "{\"event\":\"copy assignment operator\",\"other object\":" << ::repr(other) << "}\n";                                  \
-        else if (log.istrace2())                                                                                                           \
-            oss << kwrd(getClass(*this)) + punct("& ") + kwrd(getClass(*this)) + punct("::") + func("operator") + punct("=(")              \
-                << ::repr(other) << punct(")") + '\n';                                                                                     \
-        else                                                                                                                               \
-            oss << func("operator") + punct("=(const " + kwrd(getClass(*this)) + "&)") + '\n';                                             \
+#define TRACE_COPY_ASSIGN_OP                                                                                                                                                                           \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        oss << "Calling copy assignment operator: ";                                                                                                                                                   \
+        if (log.istrace5())                                                                                                                                                                            \
+            oss << "{\"event\":\"copy assignment operator\",\"other object\":" << ::repr(other) << "}\n";                                                                                              \
+        else if (log.istrace2())                                                                                                                                                                       \
+            oss << kwrd(getClass(*this)) + punct("& ") + kwrd(getClass(*this)) + punct("::") + func("operator") + punct("=(") << ::repr(other) << punct(")") + '\n';                                   \
+        else                                                                                                                                                                                           \
+            oss << func("operator") + punct("=(const " + kwrd(getClass(*this)) + "&)") + '\n';                                                                                                         \
     } while (false)
 
-#define TRACE_COPY_CTOR                                                                                                                    \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        oss << "Calling copy constructor: ";                                                                                               \
-        if (log.istrace5())                                                                                                                \
-            oss << "{\"event\":\"copy constructor\",\"other object\":" << ::repr(other) << ",\"this object\":" << ::repr(*this) << "}\n";  \
-        else if (log.istrace2())                                                                                                           \
-            oss << kwrd(getClass(*this)) + punct("::") + kwrd(getClass(*this)) + punct("(") << ::repr(other) << punct(") -> ")             \
-                << ::repr(*this) << '\n';                                                                                                  \
-        else                                                                                                                               \
-            oss << kwrd(getClass(*this)) + punct("(const ") << kwrd(getClass(*this)) << punct("&)") << '\n';                               \
+#define TRACE_COPY_CTOR                                                                                                                                                                                \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        oss << "Calling copy constructor: ";                                                                                                                                                           \
+        if (log.istrace5())                                                                                                                                                                            \
+            oss << "{\"event\":\"copy constructor\",\"other object\":" << ::repr(other) << ",\"this object\":" << ::repr(*this) << "}\n";                                                              \
+        else if (log.istrace2())                                                                                                                                                                       \
+            oss << kwrd(getClass(*this)) + punct("::") + kwrd(getClass(*this)) + punct("(") << ::repr(other) << punct(") -> ") << ::repr(*this) << '\n';                                               \
+        else                                                                                                                                                                                           \
+            oss << kwrd(getClass(*this)) + punct("(const ") << kwrd(getClass(*this)) << punct("&)") << '\n';                                                                                           \
     } while (false)
 
 #define GEN_NAMES_FIRST(type, name) << #type << " " << #name
 
 #define GEN_NAMES(type, name) << (log.istrace5() ? ", " : punct(", ")) << #type << " " << #name
 
-#define GEN_REPRS_FIRST(type, name)                                                                                                        \
-    << (log.istrace2() ? (log.istrace3() ? cmt(#name) : "") + (log.istrace3() ? cmt("=") : "") + ::repr(name)                              \
-                       : cmt(std::string(#type) + " " + #name))
+#define GEN_REPRS_FIRST(type, name) << (log.istrace2() ? (log.istrace3() ? cmt(#name) : "") + (log.istrace3() ? cmt("=") : "") + ::repr(name) : cmt(std::string(#type) + " " + #name))
 
-#define GEN_REPRS(type, name)                                                                                                              \
-    << (log.istrace2() ? punct(", ") + (log.istrace3() ? cmt(#name) : "") + (log.istrace3() ? cmt("=") : "") + ::repr(name)                \
-                       : cmt(std::string(", ") + #type + " " + #name))
+#define GEN_REPRS(type, name) << (log.istrace2() ? punct(", ") + (log.istrace3() ? cmt(#name) : "") + (log.istrace3() ? cmt("=") : "") + ::repr(name) : cmt(std::string(", ") + #type + " " + #name))
 
-#define TRACE_ARG_CTOR(...)                                                                                                                \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        IF(IS_EMPTY(__VA_ARGS__))                                                                                                          \
-        (oss << "Calling default constructor: ", oss << "Calling " << NARG(__VA_ARGS__) / 2 << "-ary constructor: ");                      \
-        if (log.istrace5())                                                                                                                \
-            IF(IS_EMPTY(__VA_ARGS__))                                                                                                      \
-        (oss << "{\"event\":\"default constructor\",\"this object\":" << ::repr(*this) << "}\n",                                           \
-         oss << "{\"event\":\"(" EXPAND(DEFER(GEN_NAMES_FIRST)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_NAMES, TAIL2(__VA_ARGS__))           \
-             << ") constructor\",\"this object\":" << ::repr(*this) << "}\n");                                                             \
-        else if (log.istrace2())                                                                                                           \
-            IF(IS_EMPTY(__VA_ARGS__))(oss << kwrd(getClass(*this)) + punct("() -> ") << ::repr(*this) << '\n',                             \
-                                      oss << kwrd(getClass(*this)) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST)(HEAD2(__VA_ARGS__)))         \
-                                                                         FOR_EACH_PAIR(GEN_REPRS, TAIL2(__VA_ARGS__))                      \
-                                          << punct(") -> ") << ::repr(*this) << '\n');                                                     \
-        else IF(IS_EMPTY(__VA_ARGS__))(oss << kwrd(getClass(*this)) + punct("()") << '\n',                                                 \
-                                       oss << kwrd(getClass(*this)) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST)(HEAD2(__VA_ARGS__)))        \
-                                                                          FOR_EACH_PAIR(GEN_REPRS, TAIL2(__VA_ARGS__))                     \
-                                           << punct(")") << '\n');                                                                         \
+#define TRACE_ARG_CTOR(...)                                                                                                                                                                            \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        IF(IS_EMPTY(__VA_ARGS__))                                                                                                                                                                      \
+        (oss << "Calling default constructor: ", oss << "Calling " << NARG(__VA_ARGS__) / 2 << "-ary constructor: ");                                                                                  \
+        if (log.istrace5())                                                                                                                                                                            \
+            IF(IS_EMPTY(__VA_ARGS__))                                                                                                                                                                  \
+        (oss << "{\"event\":\"default constructor\",\"this object\":" << ::repr(*this) << "}\n",                                                                                                       \
+         oss << "{\"event\":\"(" EXPAND(DEFER(GEN_NAMES_FIRST)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_NAMES, TAIL2(__VA_ARGS__)) << ") constructor\",\"this object\":" << ::repr(*this) << "}\n");     \
+        else if (log.istrace2()) IF(IS_EMPTY(__VA_ARGS__))(oss << kwrd(getClass(*this)) + punct("() -> ") << ::repr(*this) << '\n',                                                                    \
+                                                           oss << kwrd(getClass(*this)) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_REPRS, TAIL2(__VA_ARGS__))   \
+                                                               << punct(") -> ") << ::repr(*this) << '\n');                                                                                            \
+        else IF(IS_EMPTY(__VA_ARGS__))(oss << kwrd(getClass(*this)) + punct("()") << '\n',                                                                                                             \
+                                       oss << kwrd(getClass(*this)) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_REPRS, TAIL2(__VA_ARGS__)) << punct(")")         \
+                                           << '\n');                                                                                                                                                   \
     } while (false)
 
 #define TRACE_DEFAULT_CTOR TRACE_ARG_CTOR()
 
-#define TRACE_DTOR                                                                                                                         \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        oss << "Calling destructor: ";                                                                                                     \
-        if (log.istrace5())                                                                                                                \
-            oss << "{\"event\":\"destructor\",\"this object\":" << ::repr(*this) << "}\n";                                                 \
-        else if (log.istrace2())                                                                                                           \
-            oss << punct("~") << ::repr(*this) << '\n';                                                                                    \
-        else                                                                                                                               \
-            oss << punct("~") + kwrd(getClass(*this)) + punct("()") << '\n';                                                               \
+#define TRACE_DTOR                                                                                                                                                                                     \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        oss << "Calling destructor: ";                                                                                                                                                                 \
+        if (log.istrace5())                                                                                                                                                                            \
+            oss << "{\"event\":\"destructor\",\"this object\":" << ::repr(*this) << "}\n";                                                                                                             \
+        else if (log.istrace2())                                                                                                                                                                       \
+            oss << punct("~") << ::repr(*this) << '\n';                                                                                                                                                \
+        else                                                                                                                                                                                           \
+            oss << punct("~") + kwrd(getClass(*this)) + punct("()") << '\n';                                                                                                                           \
     } while (false)
 
-#define TRACE_SWAP_BEGIN                                                                                                                   \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        oss << "Starting swap operation: ";                                                                                                \
-        if (log.istrace5()) {                                                                                                              \
-            oss << "{\"event\":\"object swap\",\"this object\":" << ::repr(*this) << ",\"other object\":" << ::repr(other) << "}\n";       \
-        } else if (log.istrace2()) {                                                                                                       \
-            oss << cmt("<Swapping " + std::string(getClass(*this)) + " *this:") + '\n';                                                    \
-            oss << ::repr(*this) << '\n';                                                                                                  \
-            oss << cmt("with the following" + std::string(getClass(*this)) + "object:") + '\n';                                            \
-            oss << ::repr(other) << '\n';                                                                                                  \
-        } else {                                                                                                                           \
-            oss << cmt("<Swapping " + std::string(getClass(*this)) + " with another " + std::string(getClass(*this))) + '\n';              \
-        }                                                                                                                                  \
+#define TRACE_SWAP_BEGIN                                                                                                                                                                               \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        oss << "Starting swap operation: ";                                                                                                                                                            \
+        if (log.istrace5()) {                                                                                                                                                                          \
+            oss << "{\"event\":\"object swap\",\"this object\":" << ::repr(*this) << ",\"other object\":" << ::repr(other) << "}\n";                                                                   \
+        } else if (log.istrace2()) {                                                                                                                                                                   \
+            oss << cmt("<Swapping " + std::string(getClass(*this)) + " *this:") + '\n';                                                                                                                \
+            oss << ::repr(*this) << '\n';                                                                                                                                                              \
+            oss << cmt("with the following" + std::string(getClass(*this)) + "object:") + '\n';                                                                                                        \
+            oss << ::repr(other) << '\n';                                                                                                                                                              \
+        } else {                                                                                                                                                                                       \
+            oss << cmt("<Swapping " + std::string(getClass(*this)) + " with another " + std::string(getClass(*this))) + '\n';                                                                          \
+        }                                                                                                                                                                                              \
     } while (false)
 
-#define TRACE_SWAP_END                                                                                                                     \
-    do {                                                                                                                                   \
-        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                 \
-        if (!log.istrace5())                                                                                                               \
-            oss << cmt(std::string(getClass(*this)) + " swap done>") + '\n';                                                               \
+#define TRACE_SWAP_END                                                                                                                                                                                 \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM;                                                                                                                                             \
+        if (!log.istrace5())                                                                                                                                                                           \
+            oss << cmt(std::string(getClass(*this)) + " swap done>") + '\n';                                                                                                                           \
+    } while (false)
+
+// static trace functions
+#define CURRENT_TRACE_STREAM_STATIC                                                                                                                                                                    \
+    (Logger::lastInstance().istrace5()                                                                                                                                                                 \
+         ? Logger::lastInstance().trace5()                                                                                                                                                             \
+         : (Logger::lastInstance().istrace4()                                                                                                                                                          \
+                ? Logger::lastInstance().trace4()                                                                                                                                                      \
+                : (Logger::lastInstance().istrace3() ? Logger::lastInstance().trace3()                                                                                                                 \
+                                                     : (Logger::lastInstance().istrace2() ? Logger::lastInstance().trace2()                                                                            \
+                                                                                          : (Logger::lastInstance().istrace() ? Logger::lastInstance().trace() : Logger::lastInstance().trace())))))
+
+#define TRACE_COPY_CTOR_STATIC                                                                                                                                                                         \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM_STATIC;                                                                                                                                      \
+        oss << "Calling copy constructor: ";                                                                                                                                                           \
+        if (Logger::lastInstance().istrace5())                                                                                                                                                         \
+            oss << "{\"event\":\"" << _class << "() copy constructor\"}\n";                                                                                                                            \
+        else if (Logger::lastInstance().istrace2())                                                                                                                                                    \
+            oss << kwrd(_class) + punct("(const ") << kwrd(_class) << punct("&)") << '\n';                                                                                                             \
+        else                                                                                                                                                                                           \
+            oss << kwrd(_class) + punct("(const ") << kwrd(_class) << punct("&)") << '\n';                                                                                                             \
+    } while (false)
+
+#define GEN_NAMES_STATIC(type, name) << (Logger::lastInstance().istrace5() ? ", " : punct(", ")) << #type << " " << #name
+
+#define GEN_REPRS_FIRST_STATIC(type, name)                                                                                                                                                             \
+    << (Logger::lastInstance().istrace2() ? (Logger::lastInstance().istrace3() ? cmt(#name) : "") + (Logger::lastInstance().istrace3() ? cmt("=") : "") + ::repr(name)                                 \
+                                          : cmt(std::string(#type) + " " + #name))
+
+#define GEN_REPRS_STATIC(type, name)                                                                                                                                                                   \
+    << (Logger::lastInstance().istrace2() ? punct(", ") + (Logger::lastInstance().istrace3() ? cmt(#name) : "") + (Logger::lastInstance().istrace3() ? cmt("=") : "") + ::repr(name)                   \
+                                          : cmt(std::string(", ") + #type + " " + #name))
+
+#define TRACE_ARG_CTOR_STATIC(...)                                                                                                                                                                     \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM_STATIC;                                                                                                                                      \
+        IF(IS_EMPTY(__VA_ARGS__))                                                                                                                                                                      \
+        (oss << "Calling default constructor: ", oss << "Calling " << NARG(__VA_ARGS__) / 2 << "-ary constructor: ");                                                                                  \
+        if (Logger::lastInstance().istrace5())                                                                                                                                                         \
+            IF(IS_EMPTY(__VA_ARGS__))                                                                                                                                                                  \
+        (oss << "{\"event\":\"" << _class << "() default constructor\"}\n", oss << "{\"event\":\"" << _class                                                                                           \
+                                                                                << "(" EXPAND(DEFER(GEN_NAMES_FIRST)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_NAMES_STATIC, TAIL2(__VA_ARGS__)) ") "     \
+                                                                                << NARG(__VA_ARGS__) / 2 << "-ary constructor\"}\n");                                                                  \
+        else if (Logger::lastInstance().istrace2()) IF(IS_EMPTY(__VA_ARGS__))(                                                                                                                         \
+            oss << kwrd(_class) + punct("()") << '\n',                                                                                                                                                 \
+            oss << kwrd(_class) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST_STATIC)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_REPRS_STATIC, TAIL2(__VA_ARGS__)) << punct(")") << '\n');                     \
+        else IF(IS_EMPTY(__VA_ARGS__))(oss << kwrd(_class) + punct("()") << '\n',                                                                                                                      \
+                                       oss << kwrd(_class) + punct("(") EXPAND(DEFER(GEN_REPRS_FIRST_STATIC)(HEAD2(__VA_ARGS__))) FOR_EACH_PAIR(GEN_REPRS_STATIC, TAIL2(__VA_ARGS__)) << punct(")")    \
+                                           << '\n');                                                                                                                                                   \
+    } while (false)
+
+#define TRACE_DEFAULT_CTOR_STATIC TRACE_ARG_CTOR_STATIC()
+
+#define TRACE_DTOR_STATIC                                                                                                                                                                              \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM_STATIC;                                                                                                                                      \
+        oss << "Calling destructor: ";                                                                                                                                                                 \
+        if (Logger::lastInstance().istrace5())                                                                                                                                                         \
+            oss << "{\"event\":\"" << _class << "() destructor\"}\n";                                                                                                                                  \
+        else if (Logger::lastInstance().istrace2())                                                                                                                                                    \
+            oss << punct("~") + kwrd(_class) + punct("()") << '\n';                                                                                                                                    \
+        else                                                                                                                                                                                           \
+            oss << punct("~") + kwrd(_class) + punct("()") << '\n';                                                                                                                                    \
     } while (false)

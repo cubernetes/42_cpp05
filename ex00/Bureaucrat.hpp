@@ -13,29 +13,48 @@
 class Bureaucrat : public Reflection {
     REFLECT(Bureaucrat, (std::string, _name), (std::size_t, _grade));
     Logger &log;
+    static void trace_arg_ctor1(const std::string &name, std::size_t grade) CPP98(throw()) CPP23(noexcept);
+    static void trace_default_ctor() CPP98(throw()) CPP23(noexcept);
+    static void trace_copy_ctor() CPP98(throw()) CPP23(noexcept);
 
   public:
     ~Bureaucrat() CPP98(throw()) CPP23(noexcept);
-    Bureaucrat() CPP98(throw()) CPP23(noexcept);
-    Bureaucrat(const std::string &name, size_t grade, Logger &log) CPP98(throw()) CPP23(noexcept);
-    Bureaucrat(const Bureaucrat &) CPP98(throw()) CPP23(noexcept);
-    Bureaucrat &operator=(Bureaucrat) CPP98(throw()) CPP23(noexcept);
-    CPP23(constexpr) void swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept);
+    Bureaucrat() CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    Bureaucrat(const std::string &name, std::size_t grade, Logger &log) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    Bureaucrat(const Bureaucrat &) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    Bureaucrat &operator=(Bureaucrat) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    CPP23(constexpr)
+    void swap(Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    static const char *_class;
+    const string getClass(const Reflection &) const CPP23(override) { return _class; }
 
     CPP23([[nodiscard]]) const std::string &getName() const CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) const size_t &getGrade() const CPP98(throw()) CPP23(noexcept);
 
+    // @throws: Bureaucrat::GradeTooHighException
+    void incrementGrade() CPP98(throw(Bureaucrat::GradeTooHighException)) CPP23(noexcept(false));
+
+    // @throws: Bureaucrat::GradeTooLowException
+    void decrementGrade() CPP98(throw(Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+
     class GradeTooHighException : public std::range_error {
+        const std::string _msg;
+
       public:
-        const char *what() const CPP98(throw()) CPP23(noexcept);
+        ~GradeTooHighException() CPP98(throw()) CPP23(noexcept);
+        GradeTooHighException() CPP98(throw()) CPP23(noexcept);
     };
     class GradeTooLowException : public std::range_error {
+        const std::string _msg;
+
       public:
-        const char *what() const CPP98(throw()) CPP23(noexcept);
+        ~GradeTooLowException() CPP98(throw()) CPP23(noexcept);
+        GradeTooLowException() CPP98(throw()) CPP23(noexcept);
     };
 };
 
-CPP23(constexpr) void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw()) CPP23(noexcept);
+CPP23(constexpr)
+void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &val) CPP98(throw()) CPP23(noexcept);
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const Bureaucrat &val) CPP98(throw()) CPP23(noexcept);
