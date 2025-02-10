@@ -61,8 +61,7 @@ endif
 
 CXXFLAGS += -Weffc++
 
-CPPFLAGS += -Isrc
-CPPFLAGS += -Isrc/HttpServer
+CPPFLAGS += -Ilib
 
 # LDLIBS +=
 
@@ -87,16 +86,18 @@ endif
 # sources
 SRC :=
 
-vpath %.$(EXT) src
-SRC += Ansi.cpp
+vpath %.$(EXT) .
 SRC += Bureaucrat.cpp
+SRC += main.cpp
+
+vpath %.$(EXT) lib
+SRC += Ansi.cpp
 SRC += Constants.cpp
 SRC += Logger.cpp
 SRC += Options.cpp
 SRC += Reflection.cpp
 SRC += Repr.cpp
 SRC += Utils.cpp
-SRC += main.cpp
 
 # object vars
 OBJ := $(SRC:.$(EXT)=.o)
