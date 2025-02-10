@@ -22,7 +22,7 @@ namespace Constants {
     const std::string &defaultBureaucratName = "John Smith";
     const std::size_t defaultBureaucratGrade = 42;
     bool forceNoColor = false;
-    const size_t loggingMaxStringLen = 50;
+    const std::size_t loggingMaxStringLen = 50;
     const string &programVersion = "0.1";
     const string &helpText = HELP_TEXT;
 } // namespace Constants

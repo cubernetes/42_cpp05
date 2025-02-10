@@ -76,7 +76,7 @@ template <class T> static inline string getClass(const T &v) {
 template <typename T> static inline string repr(const T &value) { return ReprWrapper<T>::repr(value); }
 
 // convenience wrapper for arrays with size
-template <typename T> static inline string reprArr(const T *value, size_t size) {
+template <typename T> static inline string reprArr(const T *value, std::size_t size) {
     std::ostringstream oss;
     if (Logger::lastInstance().istrace5())
         oss << "[";
@@ -84,7 +84,7 @@ template <typename T> static inline string reprArr(const T *value, size_t size) 
         oss << punct("{");
     else
         oss << punct("[");
-    for (size_t i = 0; i < size; ++i) {
+    for (std::size_t i = 0; i < size; ++i) {
         if (i != 0) {
             if (Logger::lastInstance().istrace5())
                 oss << ", ";
@@ -263,7 +263,7 @@ template <typename T> struct ReprWrapper<vector<T> > {
             oss << kwrd("std") + punct("::") + kwrd("vector") + punct("{");
         else
             oss << punct("[");
-        for (size_t i = 0; i < value.size(); ++i) {
+        for (std::size_t i = 0; i < value.size(); ++i) {
             if (i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";
@@ -291,7 +291,7 @@ template <typename T> struct ReprWrapper<deque<T> > {
             oss << kwrd("std") + punct("::") + kwrd("deque") + punct("{");
         else
             oss << punct("[");
-        for (size_t i = 0; i < value.size(); ++i) {
+        for (std::size_t i = 0; i < value.size(); ++i) {
             if (i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";

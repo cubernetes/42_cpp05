@@ -29,7 +29,7 @@ class Bureaucrat : public Reflection {
     const string getClass(const Reflection &) const CPP23(override) { return _class; }
 
     CPP23([[nodiscard]]) const std::string &getName() const CPP98(throw()) CPP23(noexcept);
-    CPP23([[nodiscard]]) const size_t &getGrade() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) const std::size_t &getGrade() const CPP98(throw()) CPP23(noexcept);
 
     // @throws: Bureaucrat::GradeTooHighException
     void incrementGrade() CPP98(throw(Bureaucrat::GradeTooHighException)) CPP23(noexcept(false));

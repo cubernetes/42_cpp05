@@ -40,16 +40,16 @@ namespace Utils {
     string strToUpper(const string &str);
     char decodeTwoHexChars(const char _c1, const char _c2);
     bool isHexDigitNoCase(const char c);
-    size_t convertSizeToBytes(const string &sizeStr);
+    std::size_t convertSizeToBytes(const string &sizeStr);
     string replaceAll(string s, const string &search, const string &replace);
     string jsonEscape(const string &s);
     string escapeExceptNlAndTab(const string &s);
     string escape(const string &s);
     bool allUppercase(const string &str);
-    string ellipsisize(const string &str, size_t maxLen);
+    string ellipsisize(const string &str, std::size_t maxLen);
     string formattedTimestamp(std::time_t _t = 0, bool forLogger = false);
     string millisecondRemainderSinceEpoch();
-    string formatSI(size_t size);
+    string formatSI(std::size_t size);
 
     template <typename T> static inline vector<T> &getTmpVec() {
         static vector<T> _;

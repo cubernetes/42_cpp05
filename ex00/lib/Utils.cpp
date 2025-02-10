@@ -17,7 +17,7 @@
 using std::string;
 
 string Utils::replaceAll(string s, const string &search, const string &replace) {
-    size_t pos = 0;
+    std::size_t pos = 0;
     while ((pos = s.find(search, pos)) != string::npos) {
         s.replace(pos, search.length(), replace);
         pos += replace.length();
@@ -49,7 +49,7 @@ string Utils::escapeExceptNlAndTab(const string &s) {
     return "\"" + replaced + "\"";
 }
 
-string Utils::ellipsisize(const string &str, size_t maxLen) {
+string Utils::ellipsisize(const string &str, std::size_t maxLen) {
     if (str.length() <= maxLen)
         return str;
     else if (maxLen == 2)
@@ -58,8 +58,8 @@ string Utils::ellipsisize(const string &str, size_t maxLen) {
         return ".";
     else if (maxLen == 0)
         return "";
-    size_t prefixLen = (maxLen - 2) / 2;
-    size_t suffixLen = (maxLen - 3) / 2;
+    std::size_t prefixLen = (maxLen - 2) / 2;
+    std::size_t suffixLen = (maxLen - 3) / 2;
     return str.substr(0, prefixLen + 1) + "..." + str.substr(str.length() - suffixLen);
 }
 
@@ -92,8 +92,7 @@ string Utils::formattedTimestamp(std::time_t _t, bool forLogger) {
     else
         t = _t;
     if (forLogger) {
-        if (std::strftime(date, sizeof(date), " %Y-%m-%d ", std::localtime(&t)) &&
-            std::strftime(time, sizeof(time), "%H:%M:%S.", std::localtime(&t)))
+        if (std::strftime(date, sizeof(date), " %Y-%m-%d ", std::localtime(&t)) && std::strftime(time, sizeof(time), "%H:%M:%S.", std::localtime(&t)))
             return string("[") + cmt(date) + kwrd(time) + kwrd(millisecondRemainderSinceEpoch() + " ") + "] ";
         return "[" + cmt(" N/A date, N/A time ") + "] ";
     } else {
