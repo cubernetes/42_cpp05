@@ -1,0 +1,35 @@
+# test files
+test.cpp
+test.c
+a.c
+
+# build artefacts
+a.out
+ex00
+c2_unit_tests
+Catch2
+
+# coverage artefacts
+*.profraw
+llvm_profdata/
+lcov_report/
+gcovr_report/
+
+# objects
+obj/
+obj_c2/
+
+# clangd stuff
+.cache/
+compile_commands.json
+
+# other sources
+test*.cpp
+test*.c
+
+# debugging
+.gdbinit
+
+# development tools
+.vim/
+.gdb_history
