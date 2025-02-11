@@ -21,10 +21,10 @@ const char *Bureaucrat::_class = "Bureaucrat";
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
 CPP23([[nodiscard]])
 static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
-    if (grade > Constants::bureaucratMinGrade)
-        throw Bureaucrat::GradeTooLowException();
-    else if (grade < Constants::bureaucratMaxGrade)
-        throw Bureaucrat::GradeTooHighException();
+    if (grade > Constants::minGrade)
+        throw Bureaucrat::GradeTooLowException(grade);
+    else if (grade < Constants::maxGrade)
+        throw Bureaucrat::GradeTooHighException(grade);
     return grade;
 }
 
@@ -86,23 +86,25 @@ CPP23([[nodiscard]]) const std::size_t &Bureaucrat::getGrade() const CPP98(throw
 
 // @throws: Bureaucrat::GradeTooHighException
 void Bureaucrat::incrementGrade() CPP98(throw(Bureaucrat::GradeTooHighException)) CPP23(noexcept(false)) {
-    if (_grade <= Constants::bureaucratMaxGrade)
-        throw Bureaucrat::GradeTooHighException();
+    if (_grade <= Constants::maxGrade)
+        throw Bureaucrat::GradeTooHighException(_grade);
     --_grade;
 }
 
 // @throws: Bureaucrat::GradeTooLowException
 void Bureaucrat::decrementGrade() CPP98(throw(Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
-    if (_grade >= Constants::bureaucratMinGrade)
-        throw Bureaucrat::GradeTooLowException();
+    if (_grade >= Constants::minGrade)
+        throw Bureaucrat::GradeTooLowException(_grade);
     ++_grade;
 }
 
 Bureaucrat::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
-Bureaucrat::GradeTooHighException::GradeTooHighException() CPP98(throw()) CPP23(noexcept) : std::range_error("Bureaucrat's grade cannot be higher than " + Utils::STR(Constants::bureaucratMaxGrade)) {}
+Bureaucrat::GradeTooHighException::GradeTooHighException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
+    : std::range_error("Bureaucrat's grade cannot be set to " + Utils::STR(grade) + ", maximum grade allowed is " + Utils::STR(Constants::maxGrade)) {}
 
 Bureaucrat::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept){};
-Bureaucrat::GradeTooLowException::GradeTooLowException() CPP98(throw()) CPP23(noexcept) : std::range_error("Bureaucrat's grade cannot be lower than " + Utils::STR(Constants::bureaucratMinGrade)) {}
+Bureaucrat::GradeTooLowException::GradeTooLowException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
+    : std::range_error("Bureaucrat's grade cannot be set to " + Utils::STR(grade) + ", minimum grade allowed is " + Utils::STR(Constants::minGrade)) {}
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const Bureaucrat &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

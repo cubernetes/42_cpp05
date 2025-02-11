@@ -4,8 +4,8 @@
 #include <string>
 
 namespace Constants {
-    extern const std::size_t bureaucratMinGrade;
-    extern const std::size_t bureaucratMaxGrade;
+    extern const std::size_t minGrade;
+    extern const std::size_t maxGrade;
     extern const std::string &defaultBureaucratName;
     extern const std::size_t defaultBureaucratGrade;
     extern bool forceNoColor;

@@ -21,12 +21,12 @@ class Bureaucrat : public Reflection {
     class GradeTooHighException : public std::range_error {
       public:
         ~GradeTooHighException() CPP98(throw()) CPP23(noexcept);
-        GradeTooHighException() CPP98(throw()) CPP23(noexcept);
+        GradeTooHighException(std::size_t grade) CPP98(throw()) CPP23(noexcept);
     };
     class GradeTooLowException : public std::range_error {
       public:
         ~GradeTooLowException() CPP98(throw()) CPP23(noexcept);
-        GradeTooLowException() CPP98(throw()) CPP23(noexcept);
+        GradeTooLowException(std::size_t grade) CPP98(throw()) CPP23(noexcept);
     };
 
     ~Bureaucrat() CPP98(throw()) CPP23(noexcept);

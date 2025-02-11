@@ -15,8 +15,8 @@
     "    -h: Print help information.\n"
 
 namespace Constants {
-    const std::size_t bureaucratMinGrade = 150;
-    const std::size_t bureaucratMaxGrade = 1;
+    const std::size_t minGrade = 150;
+    const std::size_t maxGrade = 1;
     const std::string &defaultBureaucratName = "John Smith";
     const std::size_t defaultBureaucratGrade = 42;
     bool forceNoColor = false;
