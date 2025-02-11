@@ -10,8 +10,8 @@
 #include "Repr.hpp"
 
 void testJohn(Logger &log) {
-    log.info() << "Trying to initialize a new Bureaucrat with grade " << repr(148) << std::endl;
-    Bureaucrat john("John Smith", 148, log);
+    log.info() << "Trying to initialize a new Bureaucrat with grade " << repr(3) << std::endl;
+    Bureaucrat john("John Smith", 3, log);
     log.info() << "Return value of john.getName():          " << john.getName() << std::endl;
     log.info() << "Return value of john.getGrade():         " << john.getGrade() << std::endl;
     log.info() << "Insertion operator (<<) overload output: " << john << std::endl;
@@ -50,8 +50,8 @@ void testJohn(Logger &log) {
 }
 
 void testJane(Logger &log) {
-    log.info() << "Trying to initialize a new Bureaucrat with grade " << repr(3) << std::endl;
-    Bureaucrat jane("Jane Smith", 3, log);
+    log.info() << "Trying to initialize a new Bureaucrat with grade " << repr(148) << std::endl;
+    Bureaucrat jane("Jane Smith", 148, log);
     log.info() << "Return value of jane.getName():          " << jane.getName() << std::endl;
     log.info() << "Return value of jane.getGrade():         " << jane.getGrade() << std::endl;
     log.info() << "Insertion operator (<<) overload output: " << jane << std::endl;

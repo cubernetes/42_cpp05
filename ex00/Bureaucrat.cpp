@@ -21,9 +21,9 @@ const char *Bureaucrat::_class = "Bureaucrat";
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
 CPP23([[nodiscard]])
 static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
-    if (grade < Constants::bureaucratMinGrade)
+    if (grade > Constants::bureaucratMinGrade)
         throw Bureaucrat::GradeTooLowException();
-    else if (grade > Constants::bureaucratMaxGrade)
+    else if (grade < Constants::bureaucratMaxGrade)
         throw Bureaucrat::GradeTooHighException();
     return grade;
 }
@@ -86,16 +86,16 @@ CPP23([[nodiscard]]) const std::size_t &Bureaucrat::getGrade() const CPP98(throw
 
 // @throws: Bureaucrat::GradeTooHighException
 void Bureaucrat::incrementGrade() CPP98(throw(Bureaucrat::GradeTooHighException)) CPP23(noexcept(false)) {
-    if (_grade >= Constants::bureaucratMaxGrade)
+    if (_grade <= Constants::bureaucratMaxGrade)
         throw Bureaucrat::GradeTooHighException();
-    ++_grade;
+    --_grade;
 }
 
 // @throws: Bureaucrat::GradeTooLowException
 void Bureaucrat::decrementGrade() CPP98(throw(Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
-    if (_grade <= Constants::bureaucratMinGrade)
+    if (_grade >= Constants::bureaucratMinGrade)
         throw Bureaucrat::GradeTooLowException();
-    --_grade;
+    ++_grade;
 }
 
 Bureaucrat::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
