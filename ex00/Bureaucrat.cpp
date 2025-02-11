@@ -35,11 +35,13 @@ void Bureaucrat::trace_default_ctor() CPP98(throw()) CPP23(noexcept) { TRACE_DEF
 void Bureaucrat::trace_copy_ctor() CPP98(throw()) CPP23(noexcept) { TRACE_COPY_CTOR_STATIC; }
 
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
-Bureaucrat::Bureaucrat() CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false))
+Bureaucrat::Bureaucrat() CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) try
     : Reflection(), _name((trace_default_ctor(), Constants::defaultBureaucratName)), _grade(throwIfGradeOutOfBounds(const_cast<std::size_t &>(Constants::defaultBureaucratGrade))),
       log(Logger::lastInstance()) {
     reflect();
-    TRACE_DEFAULT_CTOR;
+} catch (...) {
+    Logger::lastInstance().error() << "Failed to default-construct Bureaucrat due to exception in member variable initialization" << std::endl;
+    throw;
 }
 
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
@@ -47,14 +49,17 @@ Bureaucrat::Bureaucrat(const std::string &name, std::size_t grade, Logger &_log)
     : Reflection(), _name((trace_arg_ctor1(name, grade), name)), _grade(throwIfGradeOutOfBounds(grade)), log(_log) {
     reflect();
 } catch (...) {
+    Logger::lastInstance().error() << "Failed to construct Bureaucrat due to exception in member variable initialization" << std::endl;
     throw;
 }
 
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
-Bureaucrat::Bureaucrat(const Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false))
+Bureaucrat::Bureaucrat(const Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) try
     : Reflection(other), _name((trace_copy_ctor(), other._name)), _grade(throwIfGradeOutOfBounds(const_cast<std::size_t &>(other._grade))), log(other.log) {
     reflect();
-    TRACE_COPY_CTOR;
+} catch (...) {
+    Logger::lastInstance().error() << "Failed to copy-constructor Bureaucrat due to exception in member variable initialization" << std::endl;
+    throw;
 }
 
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
