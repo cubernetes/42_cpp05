@@ -74,6 +74,7 @@ void Bureaucrat::swap(Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighExc
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
 CPP23(constexpr)
 void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) { lhs.swap(rhs); }
+const std::string Bureaucrat::getClass(const Reflection &) const CPP23(override) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &Bureaucrat::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }
 CPP23([[nodiscard]]) const std::size_t &Bureaucrat::getGrade() const CPP98(throw()) CPP23(noexcept) { return _grade; }

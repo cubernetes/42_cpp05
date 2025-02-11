@@ -12,8 +12,7 @@ typedef std::map<const char *, Member> Members;
 
 class Reflection {
   public:
-    // due to -Weffc++
-    virtual ~Reflection() {}
+    virtual ~Reflection();
     Reflection();
     Reflection(const Reflection &other);
     Reflection &operator=(Reflection other);
@@ -21,7 +20,7 @@ class Reflection {
 
     // set by the REFLECT macro
     static const char *_class;
-    virtual const std::string getClass(const Reflection &) const { return _class; }
+    virtual const std::string getClass(const Reflection &) const;
 
     // populated by the REFELECT macro
     Members _members;
@@ -33,9 +32,7 @@ class Reflection {
   protected:
     // is implemented automatically in the derived class by the REFLECT macro from
     // MacroMagic.h
-    void reflect() {} // empty by default, in case you're inheritin from this class and do
-                      // the reflection in another (often post-periori, i.e. for another
-                      // class that does not have reflection) way
+    void reflect();
 
     // Each DECL macro from MacroMagic.h will generate 2 functions with deterministic
     // names. One of them is a closure that calls ::repr() for the specific member. The

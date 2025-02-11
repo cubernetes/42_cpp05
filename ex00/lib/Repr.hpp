@@ -468,16 +468,6 @@ template <typename K, typename V> static inline std::ostream &operator<<(std::os
 template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const std::pair<F, S> &val) { return os << repr(val); }
 template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::set<T> &val) { return os << repr(val); }
 
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T &val) { return os << repr(val); }
-// template <typename T, std::size_t N> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T (&val)[N]) { return os << reprArr(val, N); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::vector<T> &val) { return os << repr(val); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::deque<T> &val) { return os << repr(val); }
-// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::map<K, V> &val) { return os << repr(val); }
-// template <typename K, typename V, typename C> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::map<K, V, C> &val) { return os << repr(val); }
-// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::multimap<K, V> &val) { return os << repr(val); }
-// template <typename F, typename S> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::pair<F, S> &val) { return os << repr(val); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::set<T> &val) { return os << repr(val); }
-
 // kinda belongs into Logger, but can't do that because it makes things SUPER ugly
 // (circular dependencies and so on) extern stuff
 #include <string>

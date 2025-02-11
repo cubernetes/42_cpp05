@@ -27,6 +27,17 @@ const std::string &Logger::trace4Prefix = "[ " + ansi::rgbP("TRACE4", 111, 97, 9
 const std::string &Logger::trace5Prefix = "[ " + ansi::rgbP("TRACE5", 111, 97, 91) + " ] "; // print as json (no color)
 // clang-format on
 
+bool Logger::isfatal() { return FATAL <= logLevel; }
+bool Logger::iserror() { return ERROR <= logLevel; }
+bool Logger::iswarn() { return WARNING <= logLevel; }
+bool Logger::isinfo() { return INFO <= logLevel; }
+bool Logger::isdebug() { return DEBUG <= logLevel; }
+bool Logger::istrace() { return TRACE <= logLevel; }
+bool Logger::istrace2() { return TRACE2 <= logLevel; }
+bool Logger::istrace3() { return TRACE3 <= logLevel; }
+bool Logger::istrace4() { return TRACE4 <= logLevel; }
+bool Logger::istrace5() { return TRACE5 <= logLevel; }
+
 Logger::Logger(std::ostream &_os, Level _logLevel)
     : os(_os), logLevel(_logLevel), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel), info(os, INFO, logLevel), debug(os, DEBUG, logLevel),
       trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel), trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {

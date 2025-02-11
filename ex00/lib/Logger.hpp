@@ -26,8 +26,6 @@ class Logger {
         StreamWrapper &operator<<(std::ostream &(*manip)(std::ostream &));
         std::string prefix;
 
-        const std::string &getPrefix() const { return prefix; }
-
       private:
         std::ostream &os;
         Level thisLevel;
@@ -52,16 +50,16 @@ class Logger {
     StreamWrapper trace4;
     StreamWrapper trace5;
 
-    bool isfatal() { return FATAL <= logLevel; }
-    bool iserror() { return ERROR <= logLevel; }
-    bool iswarn() { return WARNING <= logLevel; }
-    bool isinfo() { return INFO <= logLevel; }
-    bool isdebug() { return DEBUG <= logLevel; }
-    bool istrace() { return TRACE <= logLevel; }
-    bool istrace2() { return TRACE2 <= logLevel; }
-    bool istrace3() { return TRACE3 <= logLevel; }
-    bool istrace4() { return TRACE4 <= logLevel; }
-    bool istrace5() { return TRACE5 <= logLevel; }
+    bool isfatal();
+    bool iserror();
+    bool iswarn();
+    bool isinfo();
+    bool isdebug();
+    bool istrace();
+    bool istrace2();
+    bool istrace3();
+    bool istrace4();
+    bool istrace5();
 
     static const std::string &fatalPrefix;
     static const std::string &errorPrefix;

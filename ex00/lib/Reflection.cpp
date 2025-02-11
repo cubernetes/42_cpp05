@@ -9,6 +9,7 @@
 
 using std::swap;
 
+Reflection::~Reflection() {}
 Reflection::Reflection() : _members() {}
 Reflection::Reflection(const Reflection &other) : _members(other._members) {}
 Reflection &Reflection::operator=(Reflection other) {
@@ -45,3 +46,8 @@ std::string Reflection::reprStruct(std::string name, Members members) const {
 void Reflection::reflectMember(ReprClosure reprClosure, const char *memberId, const void *memberPtr) { _members[memberId] = std::make_pair(reprClosure, memberPtr); }
 
 std::string Reflection::repr() const { return reprStruct(getClass(*this), _members); }
+
+const std::string Reflection::getClass(const Reflection &) const { return _class; }
+void Reflection::reflect() {} // empty by default, in case you're inheritin from this class and do
+                              // the reflection in another (often post-periori, i.e. for another
+                              // class that does not have reflection) way
