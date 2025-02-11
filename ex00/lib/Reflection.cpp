@@ -9,19 +9,19 @@
 
 using std::swap;
 
-Reflection::~Reflection() {}
-Reflection::Reflection() : _members() {}
-Reflection::Reflection(const Reflection &other) : _members(other._members) {}
-Reflection &Reflection::operator=(Reflection other) {
+Reflection::~Reflection() CPP98(throw()) CPP23(noexcept) {}
+Reflection::Reflection() CPP98(throw()) CPP23(noexcept) : _members() {}
+Reflection::Reflection(const Reflection &other) CPP98(throw()) CPP23(noexcept) : _members(other._members) {}
+Reflection &Reflection::operator=(Reflection other) CPP98(throw()) CPP23(noexcept) {
     ::swap(*this, other);
     return *this;
 }
-void Reflection::swap(Reflection &other) /* noexcept */ { ::swap(_members, other._members); }
-void swap(Reflection &a, Reflection &b) { a.swap(b); }
+void Reflection::swap(Reflection &other) CPP98(throw()) CPP23(noexcept) { ::swap(_members, other._members); }
+void swap(Reflection &a, Reflection &b) CPP98(throw()) CPP23(noexcept) { a.swap(b); }
 
 const char *Reflection::_class = "";
 
-std::string Reflection::reprStruct(std::string name, Members members) const {
+CPP23([[nodiscard]]) const std::string Reflection::reprStruct(std::string name, Members members) const CPP98(throw()) CPP23(noexcept) {
     std::stringstream out;
     if (Logger::lastInstance().istrace5()) {
         out << "{\"class\":" << Utils::jsonEscape(name);
@@ -43,11 +43,11 @@ std::string Reflection::reprStruct(std::string name, Members members) const {
     return out.str();
 }
 
-void Reflection::reflectMember(ReprClosure reprClosure, const char *memberId, const void *memberPtr) { _members[memberId] = std::make_pair(reprClosure, memberPtr); }
+void Reflection::reflectMember(ReprClosure reprClosure, const char *memberId, const void *memberPtr) CPP98(throw()) CPP23(noexcept) { _members[memberId] = std::make_pair(reprClosure, memberPtr); }
 
-std::string Reflection::repr() const { return reprStruct(getClass(*this), _members); }
+CPP23([[nodiscard]]) std::string Reflection::repr() const CPP98(throw()) CPP23(noexcept) { return reprStruct(getClass(*this), _members); }
 
-const std::string Reflection::getClass(const Reflection &) const { return _class; }
-void Reflection::reflect() {} // empty by default, in case you're inheritin from this class and do
-                              // the reflection in another (often post-periori, i.e. for another
-                              // class that does not have reflection) way
+CPP23([[nodiscard]]) const std::string Reflection::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
+void Reflection::reflect() CPP98(throw()) CPP23(noexcept) {} // empty by default, in case you're inheritin from this class and do
+                                                             // the reflection in another (often post-periori, i.e. for another
+                                                             // class that does not have reflection) way

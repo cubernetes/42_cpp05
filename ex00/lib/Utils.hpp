@@ -8,23 +8,24 @@
 #include <vector>
 
 #include "MacroMagic.h"
+#include "Opt.h"
 
 namespace Utils {
-    std::string replaceAll(std::string s, const std::string &search, const std::string &replace);
-    std::string jsonEscape(const std::string &s);
-    std::string escapeExceptNlAndTab(const std::string &s);
-    std::string escape(const std::string &s);
-    std::string ellipsisize(const std::string &str, std::size_t maxLen);
-    std::string formattedTimestamp(std::time_t _t = 0, bool forLogger = false);
-    std::string millisecondRemainderSinceEpoch();
+    CPP23([[nodiscard]]) std::string replaceAll(std::string s, const std::string &search, const std::string &replace) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string jsonEscape(const std::string &s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string escapeExceptNlAndTab(const std::string &s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string escape(const std::string &s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string ellipsisize(const std::string &str, std::size_t maxLen) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string formattedTimestamp(std::time_t _t = 0, bool forLogger = false) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string millisecondRemainderSinceEpoch() CPP98(throw()) CPP23(noexcept);
 
-    template <typename T> static inline std::vector<T> &getTmpVec() {
+    template <typename T> CPP23([[nodiscard]]) static inline std::vector<T> &getTmpVec() CPP98(throw()) CPP23(noexcept) {
         static std::vector<T> _;
         return _;
     }
 
     // TODO: @timo: improve repr to specify no color
-    template <typename T> static inline std::string STR(T x) {
+    template <typename T> CPP23([[nodiscard]]) static inline std::string STR(T x) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         oss << std::dec << x;
         return oss.str();

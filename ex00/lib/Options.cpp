@@ -2,9 +2,10 @@
 #include <string>
 
 #include "Logger.hpp"
+#include "Opt.h"
 #include "Options.hpp"
 
-static Logger::Level convertStringToLogLevel(const char *str) {
+CPP23([[nodiscard]]) static Logger::Level convertStringToLogLevel(const char *str) CPP98(throw(std::runtime_error)) CPP23(noexcept(false)) {
     std::string s(str);
     if (s == "FATAL" || s == "1")
         return Logger::FATAL;
@@ -31,7 +32,7 @@ static Logger::Level convertStringToLogLevel(const char *str) {
                                  "`-l' option. Run with -h for more information.");
 }
 
-Options::Options(int ac, char **av) : printHelp(), printVersion(), logLevel(Logger::INFO) {
+Options::Options(int ac, char **av) CPP98(throw(std::runtime_error)) CPP23(noexcept(false)) : printHelp(), printVersion(), logLevel(Logger::INFO) {
     (void)ac;
     ++av;
     while (*av) {

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "Opt.h"
+
 class Logger {
     std::ostream &os;
 
@@ -13,17 +15,17 @@ class Logger {
 
     class StreamWrapper {
       public:
-        StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel);
-        StreamWrapper &operator()(bool printPrefix = true);
+        StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel) CPP98(throw()) CPP23(noexcept);
+        StreamWrapper &operator()(bool printPrefix = true) CPP98(throw()) CPP23(noexcept);
 
-        template <typename T> StreamWrapper &operator<<(const T &value) {
+        template <typename T> StreamWrapper &operator<<(const T &value) CPP98(throw()) CPP23(noexcept) {
             if (thisLevel <= logLevel) {
                 os << value;
             }
             return *this;
         }
 
-        StreamWrapper &operator<<(std::ostream &(*manip)(std::ostream &));
+        StreamWrapper &operator<<(std::ostream &(*manip)(std::ostream &)) CPP98(throw()) CPP23(noexcept);
         std::string prefix;
 
       private:
@@ -32,12 +34,12 @@ class Logger {
         Level &logLevel;
     };
 
-    ~Logger();
-    Logger(std::ostream &_os, Level _logLevel = INFO);
-    Logger();
-    Logger(const Logger &other);
-    Logger &operator=(Logger &other);
-    void swap(Logger &other) /* noexcept */;
+    ~Logger() CPP98(throw()) CPP23(noexcept);
+    Logger(std::ostream &_os, Level _logLevel = INFO) CPP98(throw()) CPP23(noexcept);
+    Logger() CPP98(throw()) CPP23(noexcept);
+    Logger(const Logger &other) CPP98(throw()) CPP23(noexcept);
+    Logger &operator=(Logger &other) CPP98(throw()) CPP23(noexcept);
+    void swap(Logger &other) CPP98(throw()) CPP23(noexcept);
 
     StreamWrapper fatal;
     StreamWrapper error;
@@ -50,16 +52,16 @@ class Logger {
     StreamWrapper trace4;
     StreamWrapper trace5;
 
-    bool isfatal();
-    bool iserror();
-    bool iswarn();
-    bool isinfo();
-    bool isdebug();
-    bool istrace();
-    bool istrace2();
-    bool istrace3();
-    bool istrace4();
-    bool istrace5();
+    CPP23([[nodiscard]]) bool isfatal() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool iserror() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool iswarn() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool isinfo() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool isdebug() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool istrace() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool istrace2() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool istrace3() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool istrace4() const CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) bool istrace5() const CPP98(throw()) CPP23(noexcept);
 
     static const std::string &fatalPrefix;
     static const std::string &errorPrefix;
@@ -73,7 +75,7 @@ class Logger {
     static const std::string &trace5Prefix;
 
     static Logger fallbackInstance;
-    static Logger &lastInstance(Logger *instance = NULL);
+    static Logger &lastInstance(Logger *instance = NULL) CPP98(throw()) CPP23(noexcept);
 };
 
-void swap(Logger &a, Logger &b) /* noexcept */;
+void swap(Logger &a, Logger &b) CPP98(throw()) CPP23(noexcept);

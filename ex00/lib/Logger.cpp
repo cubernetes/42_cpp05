@@ -9,6 +9,7 @@
 
 #include "Ansi.hpp"
 #include "Logger.hpp"
+#include "Opt.h"
 #include "Repr.hpp"
 #include "Utils.hpp"
 
@@ -27,18 +28,18 @@ const std::string &Logger::trace4Prefix = "[ " + ansi::rgbP("TRACE4", 111, 97, 9
 const std::string &Logger::trace5Prefix = "[ " + ansi::rgbP("TRACE5", 111, 97, 91) + " ] "; // print as json (no color)
 // clang-format on
 
-bool Logger::isfatal() { return FATAL <= logLevel; }
-bool Logger::iserror() { return ERROR <= logLevel; }
-bool Logger::iswarn() { return WARNING <= logLevel; }
-bool Logger::isinfo() { return INFO <= logLevel; }
-bool Logger::isdebug() { return DEBUG <= logLevel; }
-bool Logger::istrace() { return TRACE <= logLevel; }
-bool Logger::istrace2() { return TRACE2 <= logLevel; }
-bool Logger::istrace3() { return TRACE3 <= logLevel; }
-bool Logger::istrace4() { return TRACE4 <= logLevel; }
-bool Logger::istrace5() { return TRACE5 <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::isfatal() const CPP98(throw()) CPP23(noexcept) { return FATAL <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::iserror() const CPP98(throw()) CPP23(noexcept) { return ERROR <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::iswarn() const CPP98(throw()) CPP23(noexcept) { return WARNING <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::isinfo() const CPP98(throw()) CPP23(noexcept) { return INFO <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::isdebug() const CPP98(throw()) CPP23(noexcept) { return DEBUG <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::istrace() const CPP98(throw()) CPP23(noexcept) { return TRACE <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::istrace2() const CPP98(throw()) CPP23(noexcept) { return TRACE2 <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::istrace3() const CPP98(throw()) CPP23(noexcept) { return TRACE3 <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::istrace4() const CPP98(throw()) CPP23(noexcept) { return TRACE4 <= logLevel; }
+CPP23([[nodiscard]]) bool Logger::istrace5() const CPP98(throw()) CPP23(noexcept) { return TRACE5 <= logLevel; }
 
-Logger::Logger(std::ostream &_os, Level _logLevel)
+Logger::Logger(std::ostream &_os, Level _logLevel) CPP98(throw()) CPP23(noexcept)
     : os(_os), logLevel(_logLevel), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel), info(os, INFO, logLevel), debug(os, DEBUG, logLevel),
       trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel), trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {
     debug() << "Initialized Logger with logLevel: ";
@@ -81,7 +82,7 @@ Logger::Logger(std::ostream &_os, Level _logLevel)
 
 Logger Logger::fallbackInstance;
 
-Logger &Logger::lastInstance(Logger *instance) {
+CPP23([[nodiscard]]) Logger &Logger::lastInstance(Logger *instance) CPP98(throw()) CPP23(noexcept) {
     static Logger *last_instance = &fallbackInstance;
 
     if (instance) {
@@ -91,28 +92,28 @@ Logger &Logger::lastInstance(Logger *instance) {
     return *last_instance;
 }
 
-Logger::~Logger() { (void)lastInstance(&fallbackInstance); }
+Logger::~Logger() CPP98(throw()) CPP23(noexcept) { (void)lastInstance(&fallbackInstance); }
 
-Logger::Logger()
+Logger::Logger() CPP98(throw()) CPP23(noexcept)
     : os(std::cout), logLevel(INFO), fatal(os, FATAL, logLevel), error(os, ERROR, logLevel), warning(os, WARNING, logLevel), info(os, INFO, logLevel), debug(os, DEBUG, logLevel),
       trace(os, TRACE, logLevel), trace2(os, TRACE2, logLevel), trace3(os, TRACE3, logLevel), trace4(os, TRACE4, logLevel), trace5(os, TRACE5, logLevel) {}
 
-Logger::Logger(const Logger &other)
+Logger::Logger(const Logger &other) CPP98(throw()) CPP23(noexcept)
     : os(other.os), logLevel(other.logLevel), fatal(other.fatal), error(other.error), warning(other.warning), info(other.info), debug(other.debug), trace(other.trace), trace2(other.trace2),
       trace3(other.trace3), trace4(other.trace4), trace5(other.trace5) {}
 
-Logger &Logger::operator=(Logger &other) {
+Logger &Logger::operator=(Logger &other) CPP98(throw()) CPP23(noexcept) {
     (void)other;
     // ::swap(*this, other);
     return *this;
 }
 
-void Logger::swap(Logger &other) /* noexcept */ {
+void Logger::swap(Logger &other) CPP98(throw()) CPP23(noexcept) {
     (void)other;
     // kinda wrong, but can't swap stream in c++98, so yeah, just to make it compile
 }
 
-Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel) : prefix(), os(_os), thisLevel(_thisLevel), logLevel(_logLevel) {
+Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level &_logLevel) CPP98(throw()) CPP23(noexcept) : prefix(), os(_os), thisLevel(_thisLevel), logLevel(_logLevel) {
     switch (thisLevel) {
     case FATAL:
         prefix = fatalPrefix;
@@ -147,20 +148,20 @@ Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level 
     }
 }
 
-static std::string formattedPid() { return "[" + cmt(" ") + repr(getpid()) + cmt(" ") + "] "; }
+CPP23([[nodiscard]]) static std::string formattedPid() CPP98(throw()) CPP23(noexcept) { return "[" + cmt(" ") + repr(getpid()) + cmt(" ") + "] "; }
 
-Logger::StreamWrapper &Logger::StreamWrapper::operator()(bool printPrefix) {
+Logger::StreamWrapper &Logger::StreamWrapper::operator()(bool printPrefix) CPP98(throw()) CPP23(noexcept) {
     if (printPrefix)
         return *this << prefix << Utils::formattedTimestamp(0, true) << formattedPid();
     else
         return *this;
 }
 
-Logger::StreamWrapper &Logger::StreamWrapper::operator<<(std::ostream &(*manip)(std::ostream &)) {
+Logger::StreamWrapper &Logger::StreamWrapper::operator<<(std::ostream &(*manip)(std::ostream &)) CPP98(throw()) CPP23(noexcept) {
     if (thisLevel <= logLevel) {
         os << manip;
     }
     return *this;
 }
 
-void swap(Logger &a, Logger &b) /* noexcept */ { a.swap(b); }
+void swap(Logger &a, Logger &b) CPP98(throw()) CPP23(noexcept) { a.swap(b); }

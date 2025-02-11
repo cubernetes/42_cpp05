@@ -16,6 +16,7 @@
 #include "Ansi.hpp"
 #include "Constants.hpp"
 #include "Logger.hpp"
+#include "Opt.h"
 #include "Reflection.hpp"
 #include "Utils.hpp"
 
@@ -33,14 +34,14 @@ using ansi::rgb;
 using ansi::rgbBg;
 
 namespace ReprClr {
-    std::string str(std::string s);
-    std::string chr(std::string s);
-    std::string kwrd(std::string s);
-    std::string punct(std::string s);
-    std::string func(std::string s);
-    std::string num(std::string s);
-    std::string var(std::string s);
-    std::string cmt(std::string s);
+    CPP23([[nodiscard]]) std::string str(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string chr(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string kwrd(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string punct(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string func(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string num(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string var(std::string s) CPP98(throw()) CPP23(noexcept);
+    CPP23([[nodiscard]]) std::string cmt(std::string s) CPP98(throw()) CPP23(noexcept);
 } // namespace ReprClr
 
 using ReprClr::chr;
@@ -52,23 +53,23 @@ using ReprClr::punct;
 using ReprClr::str;
 using ReprClr::var;
 
-void reprInit();
-void reprDone();
+CPP23([[nodiscard]]) void reprInit() CPP98(throw()) CPP23(noexcept);
+CPP23([[nodiscard]]) void reprDone() CPP98(throw()) CPP23(noexcept);
 
 template <typename T> struct ReprWrapper {
-    static inline std::string repr(const T &value) { return value.repr(); }
+    CPP23([[nodiscard]]) static inline std::string repr(const T &value) CPP98(throw()) CPP23(noexcept) { return value.repr(); }
 };
 
-template <class T> static inline std::string getClass(const T &v) {
+template <class T> CPP23([[nodiscard]]) static inline std::string getClass(const T &v) CPP98(throw()) CPP23(noexcept) {
     (void)v;
     return "(unknown)";
 }
 
 // convenience wrapper
-template <typename T> static inline std::string repr(const T &value) { return ReprWrapper<T>::repr(value); }
+template <typename T> CPP23([[nodiscard]]) static inline std::string repr(const T &value) CPP98(throw()) CPP23(noexcept) { return ReprWrapper<T>::repr(value); }
 
 // convenience wrapper for arrays with size
-template <typename T> static inline std::string reprArr(const T *value, std::size_t size) {
+template <typename T> CPP23([[nodiscard]]) static inline std::string reprArr(const T *value, std::size_t size) CPP98(throw()) CPP23(noexcept) {
     std::ostringstream oss;
     if (Logger::lastInstance().istrace5())
         oss << "[";
@@ -98,7 +99,7 @@ template <typename T> static inline std::string reprArr(const T *value, std::siz
 
 #define INT_REPR(T)                                                                                                                                                                                    \
     template <> struct ReprWrapper<T> {                                                                                                                                                                \
-        static inline std::string repr(const T &value) {                                                                                                                                               \
+        CPP23([[nodiscard]]) static inline std::string repr(const T &value) CPP98(throw()) CPP23(noexcept) {                                                                                           \
             std::ostringstream oss;                                                                                                                                                                    \
             oss << value;                                                                                                                                                                              \
             if (Logger::lastInstance().istrace5())                                                                                                                                                     \
@@ -119,7 +120,7 @@ INT_REPR(double);
 INT_REPR(long double);
 
 template <> struct ReprWrapper<bool> {
-    static inline std::string repr(const bool &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const bool &value) CPP98(throw()) CPP23(noexcept) {
         if (Logger::lastInstance().istrace5())
             return value ? "true" : "false";
         else
@@ -128,7 +129,7 @@ template <> struct ReprWrapper<bool> {
 };
 
 template <> struct ReprWrapper<std::string> {
-    static inline std::string repr(const std::string &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::string &value) CPP98(throw()) CPP23(noexcept) {
         if (Logger::lastInstance().istrace5())
             return Utils::jsonEscape(value);
         else {
@@ -145,7 +146,7 @@ template <> struct ReprWrapper<std::string> {
 
 // print generic pointers
 template <typename T> struct ReprWrapper<T *> {
-    static inline std::string repr(const T *const &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const T *const &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (value)
             oss << value;
@@ -159,7 +160,7 @@ template <typename T> struct ReprWrapper<T *> {
 };
 
 template <> struct ReprWrapper<char *> {
-    static inline std::string repr(const char *const &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const char *const &value) CPP98(throw()) CPP23(noexcept) {
         if (Logger::lastInstance().istrace5()) {
             if (value)
                 return Utils::jsonEscape(value);
@@ -183,7 +184,7 @@ template <> struct ReprWrapper<char *> {
 // TODO: @timo: escape for char literal
 #define CHAR_REPR(T)                                                                                                                                                                                   \
     template <> struct ReprWrapper<T> {                                                                                                                                                                \
-        static inline std::string repr(const T &value) {                                                                                                                                               \
+        CPP23([[nodiscard]]) static inline std::string repr(const T &value) CPP98(throw()) CPP23(noexcept) {                                                                                           \
             if (Logger::lastInstance().istrace5())                                                                                                                                                     \
                 return std::string("\"") + Utils::jsonEscape(std::string(1, static_cast<char>(value))) + "\"";                                                                                         \
             else                                                                                                                                                                                       \
@@ -203,17 +204,17 @@ CHAR_REPR(signed char);
 #define MAKE_ASSIGN_MEMBER(_, name) singleton.name = value.name;
 #define MAKE_REFLECT(_, name) members[#name] = std::make_std::pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
 #define POST_REFLECT_GETTER(clsId, ...)                                                                                                                                                                \
-    static inline std::string getClass(const clsId &v) {                                                                                                                                               \
+    CPP23([[nodiscard]]) static inline std::string getClass(const clsId &v) CPP98(throw()) CPP23(noexcept) {                                                                                           \
         (void)v;                                                                                                                                                                                       \
         return #clsId;                                                                                                                                                                                 \
     }                                                                                                                                                                                                  \
     template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
-        void reflect() {}                                                                                                                                                                              \
-        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                                                 \
+        void reflect() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
+        ReprWrapper() CPP98(throw()) CPP23(noexcept) : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                  \
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
         FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
         FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
-        static inline std::string repr(const clsId &value) {                                                                                                                                           \
+        CPP23([[nodiscard]]) static inline std::string repr(const clsId &value) CPP98(throw()) CPP23(noexcept) {                                                                                       \
             (void)value;                                                                                                                                                                               \
             static ReprWrapper<clsId> singleton;                                                                                                                                                       \
             FOR_EACH_PAIR(MAKE_ASSIGN_GETTER, __VA_ARGS__)                                                                                                                                             \
@@ -223,19 +224,19 @@ CHAR_REPR(signed char);
         }                                                                                                                                                                                              \
     }
 #define POST_REFLECT_MEMBER(clsId, ...)                                                                                                                                                                \
-    static inline std::string getClass(const clsId &v) {                                                                                                                                               \
+    CPP23([[nodiscard]]) static inline std::string getClass(const clsId &v) CPP98(throw()) CPP23(noexcept) {                                                                                           \
         (void)v;                                                                                                                                                                                       \
         return #clsId;                                                                                                                                                                                 \
     }                                                                                                                                                                                                  \
     template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
-        void reflect() {}                                                                                                                                                                              \
-        ReprWrapper() : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                                                 \
-        ReprWrapper(const ReprWrapper &other) : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                      \
-        ReprWrapper &operator=(const ReprWrapper &) { return *this; }                                                                                                                                  \
+        void reflect() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
+        ReprWrapper() CPP98(throw()) CPP23(noexcept) : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                  \
+        ReprWrapper(const ReprWrapper &other) CPP98(throw()) CPP23(noexcept) : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                       \
+        ReprWrapper &operator=(const ReprWrapper &) CPP98(throw()) CPP23(noexcept) { return *this; }                                                                                                   \
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
         FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
         FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
-        static inline std::string repr(const clsId &value) {                                                                                                                                           \
+        CPP23([[nodiscard]]) static inline std::string repr(const clsId &value) CPP98(throw()) CPP23(noexcept) {                                                                                       \
             (void)value;                                                                                                                                                                               \
             static ReprWrapper<clsId> singleton;                                                                                                                                                       \
             FOR_EACH_PAIR(MAKE_ASSIGN_MEMBER, __VA_ARGS__)                                                                                                                                             \
@@ -247,7 +248,7 @@ CHAR_REPR(signed char);
 
 // for std::vector
 template <typename T> struct ReprWrapper<std::vector<T> > {
-    static inline std::string repr(const std::vector<T> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::vector<T> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -275,7 +276,7 @@ template <typename T> struct ReprWrapper<std::vector<T> > {
 };
 
 template <typename T> struct ReprWrapper<std::deque<T> > {
-    static inline std::string repr(const std::deque<T> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::deque<T> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -304,7 +305,7 @@ template <typename T> struct ReprWrapper<std::deque<T> > {
 
 // for std::map
 template <typename K, typename V> struct ReprWrapper<std::map<K, V> > {
-    static inline std::string repr(const std::map<K, V> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::map<K, V> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -340,7 +341,7 @@ template <typename K, typename V> struct ReprWrapper<std::map<K, V> > {
 
 // for std::map with comparison function
 template <typename K, typename V, typename C> struct ReprWrapper<std::map<K, V, C> > {
-    static inline std::string repr(const std::map<K, V, C> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::map<K, V, C> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -376,7 +377,7 @@ template <typename K, typename V, typename C> struct ReprWrapper<std::map<K, V, 
 
 // for std::multimap
 template <typename K, typename V> struct ReprWrapper<std::multimap<K, V> > {
-    static inline std::string repr(const std::multimap<K, V> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::multimap<K, V> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -412,7 +413,7 @@ template <typename K, typename V> struct ReprWrapper<std::multimap<K, V> > {
 
 // for std::pair
 template <typename F, typename S> struct ReprWrapper<std::pair<F, S> > {
-    static inline std::string repr(const std::pair<F, S> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::pair<F, S> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -431,7 +432,7 @@ template <typename F, typename S> struct ReprWrapper<std::pair<F, S> > {
 
 // for std::set
 template <typename T> struct ReprWrapper<std::set<T> > {
-    static inline std::string repr(const std::set<T> &value) {
+    CPP23([[nodiscard]]) static inline std::string repr(const std::set<T> &value) CPP98(throw()) CPP23(noexcept) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -460,13 +461,13 @@ template <typename T> struct ReprWrapper<std::set<T> > {
 };
 
 // to print using `std::cout << ...' or `Logger::StreamWrapper << ...'
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::vector<T> &val) { return os << repr(val); }
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::deque<T> &val) { return os << repr(val); }
-template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V> &val) { return os << repr(val); }
-template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V, C> &val) { return os << repr(val); }
-template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::multimap<K, V> &val) { return os << repr(val); }
-template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const std::pair<F, S> &val) { return os << repr(val); }
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::set<T> &val) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::vector<T> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::deque<T> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V, C> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::multimap<K, V> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const std::pair<F, S> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::set<T> &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 
 // kinda belongs into Logger, but can't do that because it makes things SUPER ugly
 // (circular dependencies and so on) extern stuff

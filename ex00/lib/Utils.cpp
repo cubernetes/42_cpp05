@@ -10,10 +10,11 @@
 #include <string>
 #include <sys/time.h>
 
+#include "Opt.h"
 #include "Repr.hpp"
 #include "Utils.hpp"
 
-std::string Utils::replaceAll(std::string s, const std::string &search, const std::string &replace) {
+CPP23([[nodiscard]]) std::string Utils::replaceAll(std::string s, const std::string &search, const std::string &replace) CPP98(throw()) CPP23(noexcept) {
     std::size_t pos = 0;
     while ((pos = s.find(search, pos)) != std::string::npos) {
         s.replace(pos, search.length(), replace);
@@ -22,7 +23,7 @@ std::string Utils::replaceAll(std::string s, const std::string &search, const st
     return s;
 }
 
-std::string Utils::jsonEscape(const std::string &s) {
+CPP23([[nodiscard]]) std::string Utils::jsonEscape(const std::string &s) CPP98(throw()) CPP23(noexcept) {
     std::string replaced = s;
     replaced = Utils::replaceAll(s, "\\", "\\\\");
     replaced = Utils::replaceAll(replaced, "\"", "\\\"");
@@ -35,7 +36,7 @@ std::string Utils::jsonEscape(const std::string &s) {
     return "\"" + replaced + "\"";
 }
 
-std::string Utils::escapeExceptNlAndTab(const std::string &s) {
+CPP23([[nodiscard]]) std::string Utils::escapeExceptNlAndTab(const std::string &s) CPP98(throw()) CPP23(noexcept) {
     std::string replaced = s;
     replaced = Utils::replaceAll(s, "\\", "\\\\");
     replaced = Utils::replaceAll(replaced, "\"", "\\\"");
@@ -46,7 +47,7 @@ std::string Utils::escapeExceptNlAndTab(const std::string &s) {
     return "\"" + replaced + "\"";
 }
 
-std::string Utils::ellipsisize(const std::string &str, std::size_t maxLen) {
+CPP23([[nodiscard]]) std::string Utils::ellipsisize(const std::string &str, std::size_t maxLen) CPP98(throw()) CPP23(noexcept) {
     if (str.length() <= maxLen)
         return str;
     else if (maxLen == 2)
@@ -60,7 +61,7 @@ std::string Utils::ellipsisize(const std::string &str, std::size_t maxLen) {
     return str.substr(0, prefixLen + 1) + "..." + str.substr(str.length() - suffixLen);
 }
 
-std::string Utils::millisecondRemainderSinceEpoch() {
+CPP23([[nodiscard]]) std::string Utils::millisecondRemainderSinceEpoch() CPP98(throw()) CPP23(noexcept) {
     int millisec;
     struct timeval tv;
 
@@ -79,7 +80,7 @@ std::string Utils::millisecondRemainderSinceEpoch() {
     return oss.str();
 }
 
-std::string Utils::formattedTimestamp(std::time_t _t, bool forLogger) {
+CPP23([[nodiscard]]) std::string Utils::formattedTimestamp(std::time_t _t, bool forLogger) CPP98(throw()) CPP23(noexcept) {
     std::time_t t;
     char date[BUFSIZ];
     char time[BUFSIZ];
