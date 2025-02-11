@@ -10,8 +10,6 @@
 
 #include "MacroMagic.h"
 
-using std::vector;
-
 struct sockaddr_in_wrapper {
     struct in_addr sin_addr;
     in_port_t sin_port;
@@ -50,8 +48,8 @@ namespace Utils {
     std::string millisecondRemainderSinceEpoch();
     std::string formatSI(std::size_t size);
 
-    template <typename T> static inline vector<T> &getTmpVec() {
-        static vector<T> _;
+    template <typename T> static inline std::vector<T> &getTmpVec() {
+        static std::vector<T> _;
         return _;
     }
 
@@ -65,6 +63,6 @@ namespace Utils {
 
 #define TMP_VEC_PUSH_BACK(type, x) Utils::getTmpVec<type>().push_back(x),
 
-// Helper macro to create inplace vectors (i.e. passing as an argument), very useful
+// Helper macro to create inplace std::vectors (i.e. passing as an argument), very useful
 // sometimes
 #define VEC(type, ...) (Utils::getTmpVec<type>().clear(), FOR_EACH_ONE(TMP_VEC_PUSH_BACK, type, __VA_ARGS__) Utils::getTmpVec<type>())

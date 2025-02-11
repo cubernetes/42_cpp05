@@ -31,12 +31,6 @@
 
 using ansi::rgb;
 using ansi::rgbBg;
-using std::deque;
-using std::map;
-using std::multimap;
-using std::pair;
-using std::set;
-using std::vector;
 
 namespace ReprClr {
     std::string str(std::string s);
@@ -207,7 +201,7 @@ CHAR_REPR(signed char);
     std::string CAT(repr_, name)() const { return ::repr(name); }
 #define MAKE_ASSIGN_GETTER(_, name) singleton.name = value.CAT(get, name)();
 #define MAKE_ASSIGN_MEMBER(_, name) singleton.name = value.name;
-#define MAKE_REFLECT(_, name) members[#name] = std::make_pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
+#define MAKE_REFLECT(_, name) members[#name] = std::make_std::pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
 #define POST_REFLECT_GETTER(clsId, ...)                                                                                                                                                                \
     static inline std::string getClass(const clsId &v) {                                                                                                                                               \
         (void)v;                                                                                                                                                                                       \
@@ -251,14 +245,14 @@ CHAR_REPR(signed char);
         }                                                                                                                                                                                              \
     }
 
-// for vector
-template <typename T> struct ReprWrapper<vector<T> > {
-    static inline std::string repr(const vector<T> &value) {
+// for std::vector
+template <typename T> struct ReprWrapper<std::vector<T> > {
+    static inline std::string repr(const std::vector<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("vector") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::vector") + punct("{");
         else
             oss << punct("[");
         for (std::size_t i = 0; i < value.size(); ++i) {
@@ -280,13 +274,13 @@ template <typename T> struct ReprWrapper<vector<T> > {
     }
 };
 
-template <typename T> struct ReprWrapper<deque<T> > {
-    static inline std::string repr(const deque<T> &value) {
+template <typename T> struct ReprWrapper<std::deque<T> > {
+    static inline std::string repr(const std::deque<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("deque") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::deque") + punct("{");
         else
             oss << punct("[");
         for (std::size_t i = 0; i < value.size(); ++i) {
@@ -308,18 +302,18 @@ template <typename T> struct ReprWrapper<deque<T> > {
     }
 };
 
-// for map
-template <typename K, typename V> struct ReprWrapper<map<K, V> > {
-    static inline std::string repr(const map<K, V> &value) {
+// for std::map
+template <typename K, typename V> struct ReprWrapper<std::map<K, V> > {
+    static inline std::string repr(const std::map<K, V> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("map") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::map") + punct("{");
         else
             oss << punct("{");
         int i = 0;
-        for (typename map<K, V>::const_iterator it = value.begin(); it != value.end(); ++it) {
+        for (typename std::map<K, V>::const_iterator it = value.begin(); it != value.end(); ++it) {
             if (i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";
@@ -344,18 +338,18 @@ template <typename K, typename V> struct ReprWrapper<map<K, V> > {
     }
 };
 
-// for map with comparison function
-template <typename K, typename V, typename C> struct ReprWrapper<map<K, V, C> > {
-    static inline std::string repr(const map<K, V, C> &value) {
+// for std::map with comparison function
+template <typename K, typename V, typename C> struct ReprWrapper<std::map<K, V, C> > {
+    static inline std::string repr(const std::map<K, V, C> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("map") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::map") + punct("{");
         else
             oss << punct("{");
         int i = 0;
-        for (typename map<K, V, C>::const_iterator it = value.begin(); it != value.end(); ++it) {
+        for (typename std::map<K, V, C>::const_iterator it = value.begin(); it != value.end(); ++it) {
             if (i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";
@@ -380,18 +374,18 @@ template <typename K, typename V, typename C> struct ReprWrapper<map<K, V, C> > 
     }
 };
 
-// for multimap
-template <typename K, typename V> struct ReprWrapper<multimap<K, V> > {
-    static inline std::string repr(const multimap<K, V> &value) {
+// for std::multimap
+template <typename K, typename V> struct ReprWrapper<std::multimap<K, V> > {
+    static inline std::string repr(const std::multimap<K, V> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("multimap") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::multimap") + punct("{");
         else
             oss << punct("{");
         int i = 0;
-        for (typename multimap<K, V>::const_iterator it = value.begin(); it != value.end(); ++it) {
+        for (typename std::multimap<K, V>::const_iterator it = value.begin(); it != value.end(); ++it) {
             if (i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";
@@ -416,14 +410,14 @@ template <typename K, typename V> struct ReprWrapper<multimap<K, V> > {
     }
 };
 
-// for pair
-template <typename F, typename S> struct ReprWrapper<pair<F, S> > {
-    static inline std::string repr(const pair<F, S> &value) {
+// for std::pair
+template <typename F, typename S> struct ReprWrapper<std::pair<F, S> > {
+    static inline std::string repr(const std::pair<F, S> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("pair") + punct("(");
+            oss << kwrd("std") + punct("::") + kwrd("std::pair") + punct("(");
         else
             oss << punct("(");
         oss << ReprWrapper<F>::repr(value.first) << (Logger::lastInstance().istrace5() ? ", " : punct(", ")) << ReprWrapper<S>::repr(value.second);
@@ -435,18 +429,18 @@ template <typename F, typename S> struct ReprWrapper<pair<F, S> > {
     }
 };
 
-// for set
-template <typename T> struct ReprWrapper<set<T> > {
-    static inline std::string repr(const set<T> &value) {
+// for std::set
+template <typename T> struct ReprWrapper<std::set<T> > {
+    static inline std::string repr(const std::set<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
         else if (Logger::lastInstance().istrace4())
-            oss << kwrd("std") + punct("::") + kwrd("set") + punct("{");
+            oss << kwrd("std") + punct("::") + kwrd("std::set") + punct("{");
         else
             oss << punct("{");
         int i = -1;
-        for (typename set<T>::const_iterator it = value.begin(); it != value.end(); ++it) {
+        for (typename std::set<T>::const_iterator it = value.begin(); it != value.end(); ++it) {
             if (++i != 0) {
                 if (Logger::lastInstance().istrace5())
                     oss << ", ";
@@ -466,23 +460,23 @@ template <typename T> struct ReprWrapper<set<T> > {
 };
 
 // to print using `std::cout << ...' or `Logger::StreamWrapper << ...'
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const vector<T> &val) { return os << repr(val); }
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const deque<T> &val) { return os << repr(val); }
-template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const map<K, V> &val) { return os << repr(val); }
-template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const map<K, V, C> &val) { return os << repr(val); }
-template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const multimap<K, V> &val) { return os << repr(val); }
-template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const pair<F, S> &val) { return os << repr(val); }
-template <typename T> static inline std::ostream &operator<<(std::ostream &os, const set<T> &val) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::vector<T> &val) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::deque<T> &val) { return os << repr(val); }
+template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V> &val) { return os << repr(val); }
+template <typename K, typename V, typename C> static inline std::ostream &operator<<(std::ostream &os, const std::map<K, V, C> &val) { return os << repr(val); }
+template <typename K, typename V> static inline std::ostream &operator<<(std::ostream &os, const std::multimap<K, V> &val) { return os << repr(val); }
+template <typename F, typename S> static inline std::ostream &operator<<(std::ostream &os, const std::pair<F, S> &val) { return os << repr(val); }
+template <typename T> static inline std::ostream &operator<<(std::ostream &os, const std::set<T> &val) { return os << repr(val); }
 
 // template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T &val) { return os << repr(val); }
 // template <typename T, std::size_t N> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const T (&val)[N]) { return os << reprArr(val, N); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const vector<T> &val) { return os << repr(val); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const deque<T> &val) { return os << repr(val); }
-// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const map<K, V> &val) { return os << repr(val); }
-// template <typename K, typename V, typename C> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const map<K, V, C> &val) { return os << repr(val); }
-// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const multimap<K, V> &val) { return os << repr(val); }
-// template <typename F, typename S> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const pair<F, S> &val) { return os << repr(val); }
-// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const set<T> &val) { return os << repr(val); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::vector<T> &val) { return os << repr(val); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::deque<T> &val) { return os << repr(val); }
+// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::map<K, V> &val) { return os << repr(val); }
+// template <typename K, typename V, typename C> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::map<K, V, C> &val) { return os << repr(val); }
+// template <typename K, typename V> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::multimap<K, V> &val) { return os << repr(val); }
+// template <typename F, typename S> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::pair<F, S> &val) { return os << repr(val); }
+// template <typename T> static inline Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const std::set<T> &val) { return os << repr(val); }
 
 // kinda belongs into Logger, but can't do that because it makes things SUPER ugly
 // (circular dependencies and so on) extern stuff

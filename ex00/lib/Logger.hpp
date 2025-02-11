@@ -1,13 +1,8 @@
 #pragma once /* Logger.hpp */
 
-#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <string>
-
-#include "Ansi.hpp"
-
-using std::swap;
 
 class Logger {
     std::ostream &os;

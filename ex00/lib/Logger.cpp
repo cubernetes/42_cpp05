@@ -12,6 +12,8 @@
 #include "Repr.hpp"
 #include "Utils.hpp"
 
+// using std::swap;
+
 // clang-format off
 const std::string &Logger::fatalPrefix = "[ " + ansi::redBg("FATAL") + "  ] ";
 const std::string &Logger::errorPrefix = "[ " + ansi::red("ERROR") + "  ] ";
