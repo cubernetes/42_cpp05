@@ -53,8 +53,8 @@ using ReprClr::punct;
 using ReprClr::str;
 using ReprClr::var;
 
-CPP23([[nodiscard]]) void reprInit() CPP98(throw()) CPP23(noexcept);
-CPP23([[nodiscard]]) void reprDone() CPP98(throw()) CPP23(noexcept);
+void reprInit() CPP98(throw()) CPP23(noexcept);
+void reprDone() CPP98(throw()) CPP23(noexcept);
 
 template <typename T> struct ReprWrapper {
     CPP23([[nodiscard]]) static inline std::string repr(const T &value) CPP98(throw()) CPP23(noexcept) { return value.repr(); }
