@@ -8,9 +8,7 @@
 #include "Ansi.hpp"
 #include "Constants.hpp"
 
-using std::string;
-
-static inline string itoa(int n) {
+static inline std::string itoa(int n) {
     std::ostringstream oss;
     oss << n;
     return oss.str();
@@ -27,121 +25,121 @@ bool ansi::noColor() {
     return true;
 }
 
-string ansi::black(string s) {
+std::string ansi::black(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK + s + ANSI_RST;
 }
 
-string ansi::red(string s) {
+std::string ansi::red(std::string s) {
     if (noColor())
         return s;
     return ANSI_RED + s + ANSI_RST;
 }
 
-string ansi::green(string s) {
+std::string ansi::green(std::string s) {
     if (noColor())
         return s;
     return ANSI_GREEN + s + ANSI_RST;
 }
 
-string ansi::yellow(string s) {
+std::string ansi::yellow(std::string s) {
     if (noColor())
         return s;
     return ANSI_YELLOW + s + ANSI_RST;
 }
 
-string ansi::blue(string s) {
+std::string ansi::blue(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLUE + s + ANSI_RST;
 }
 
-string ansi::magenta(string s) {
+std::string ansi::magenta(std::string s) {
     if (noColor())
         return s;
     return ANSI_MAGENTA + s + ANSI_RST;
 }
 
-string ansi::cyan(string s) {
+std::string ansi::cyan(std::string s) {
     if (noColor())
         return s;
     return ANSI_CYAN + s + ANSI_RST;
 }
 
-string ansi::white(string s) {
+std::string ansi::white(std::string s) {
     if (noColor())
         return s;
     return ANSI_WHITE + s + ANSI_RST;
 }
 
-string ansi::blackBg(string s) {
+std::string ansi::blackBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK_BG + s + ANSI_RST;
 }
 
-string ansi::redBg(string s) {
+std::string ansi::redBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_RED_BG + s + ANSI_RST;
 }
 
-string ansi::greenBg(string s) {
+std::string ansi::greenBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK ANSI_GREEN_BG + s + ANSI_RST;
 }
 
-string ansi::yellowBg(string s) {
+std::string ansi::yellowBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK ANSI_YELLOW_BG + s + ANSI_RST;
 }
 
-string ansi::blueBg(string s) {
+std::string ansi::blueBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLUE_BG + s + ANSI_RST;
 }
 
-string ansi::magentaBg(string s) {
+std::string ansi::magentaBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_MAGENTA_BG + s + ANSI_RST;
 }
 
-string ansi::cyanBg(string s) {
+std::string ansi::cyanBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK ANSI_CYAN_BG + s + ANSI_RST;
 }
 
-string ansi::whiteBg(string s) {
+std::string ansi::whiteBg(std::string s) {
     if (noColor())
         return s;
     return ANSI_BLACK ANSI_WHITE_BG + s + ANSI_RST;
 }
 
-string ansi::rgbP(string s, int r, int g, int b) {
+std::string ansi::rgbP(std::string s, int r, int g, int b) {
     if (noColor())
         return s;
     return ANSI_CSI ANSI_RGB ";" + itoa(r) + ";" + itoa(g) + ";" + itoa(b) + "m" + s + ANSI_RST;
 }
 
-string ansi::rgb(string s, const string &rgbSemicolon) {
+std::string ansi::rgb(std::string s, const std::string &rgbSemicolon) {
     if (noColor())
         return s;
     return ANSI_CSI ANSI_RGB ";" + rgbSemicolon + "m" + s + ANSI_RST;
 }
 
-string ansi::rgbBgP(string s, int r, int g, int b) {
+std::string ansi::rgbBgP(std::string s, int r, int g, int b) {
     if (noColor())
         return s;
     return ANSI_CSI ANSI_RGB_BG ";" + itoa(r) + ";" + itoa(g) + ";" + itoa(b) + "m" + s + ANSI_RST;
 }
 
-string ansi::rgbBg(string s, const string &rgbSemicolon) {
+std::string ansi::rgbBg(std::string s, const std::string &rgbSemicolon) {
     if (noColor())
         return s;
     return ANSI_CSI ANSI_RGB_BG ";" + rgbSemicolon + "m" + s + ANSI_RST;

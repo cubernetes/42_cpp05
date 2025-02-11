@@ -25,28 +25,26 @@
 #define ANSI_WHITE_BG   ANSI_CSI "47" "m"
 // clang-format on
 
-using std::string;
-
 namespace ansi {
     bool noColor();
-    string black(string s);
-    string red(string s);
-    string green(string s);
-    string yellow(string s);
-    string blue(string s);
-    string magenta(string s);
-    string cyan(string s);
-    string white(string s);
-    string blackBg(string s);
-    string redBg(string s);
-    string greenBg(string s);
-    string yellowBg(string s);
-    string blueBg(string s);
-    string magentaBg(string s);
-    string cyanBg(string s);
-    string whiteBg(string s);
-    string rgbP(string s, int r, int g, int b);
-    string rgbBgP(string s, int r, int g, int b);
-    string rgb(string s, const string &rgbSemicolon);
-    string rgbBg(string s, const string &rgbSemicolon);
+    std::string black(std::string s);
+    std::string red(std::string s);
+    std::string green(std::string s);
+    std::string yellow(std::string s);
+    std::string blue(std::string s);
+    std::string magenta(std::string s);
+    std::string cyan(std::string s);
+    std::string white(std::string s);
+    std::string blackBg(std::string s);
+    std::string redBg(std::string s);
+    std::string greenBg(std::string s);
+    std::string yellowBg(std::string s);
+    std::string blueBg(std::string s);
+    std::string magentaBg(std::string s);
+    std::string cyanBg(std::string s);
+    std::string whiteBg(std::string s);
+    std::string rgbP(std::string s, int r, int g, int b);
+    std::string rgbBgP(std::string s, int r, int g, int b);
+    std::string rgb(std::string s, const std::string &rgbSemicolon);
+    std::string rgbBg(std::string s, const std::string &rgbSemicolon);
 } // namespace ansi

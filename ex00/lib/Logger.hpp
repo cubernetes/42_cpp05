@@ -68,16 +68,16 @@ class Logger {
     bool istrace4() { return TRACE4 <= logLevel; }
     bool istrace5() { return TRACE5 <= logLevel; }
 
-    static const string &fatalPrefix;
-    static const string &errorPrefix;
-    static const string &warningPrefix;
-    static const string &infoPrefix;
-    static const string &debugPrefix;
-    static const string &tracePrefix;
-    static const string &trace2Prefix;
-    static const string &trace3Prefix;
-    static const string &trace4Prefix;
-    static const string &trace5Prefix;
+    static const std::string &fatalPrefix;
+    static const std::string &errorPrefix;
+    static const std::string &warningPrefix;
+    static const std::string &infoPrefix;
+    static const std::string &debugPrefix;
+    static const std::string &tracePrefix;
+    static const std::string &trace2Prefix;
+    static const std::string &trace3Prefix;
+    static const std::string &trace4Prefix;
+    static const std::string &trace5Prefix;
 
     static Logger fallbackInstance;
     static Logger &lastInstance(Logger *instance = NULL);

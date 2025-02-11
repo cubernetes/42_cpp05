@@ -10,7 +10,6 @@
 #include <sstream>
 #include <string>
 #include <sys/poll.h>
-#include <time.h>
 #include <utility>
 #include <vector>
 
@@ -37,18 +36,17 @@ using std::map;
 using std::multimap;
 using std::pair;
 using std::set;
-using std::string;
 using std::vector;
 
 namespace ReprClr {
-    string str(string s);
-    string chr(string s);
-    string kwrd(string s);
-    string punct(string s);
-    string func(string s);
-    string num(string s);
-    string var(string s);
-    string cmt(string s);
+    std::string str(std::string s);
+    std::string chr(std::string s);
+    std::string kwrd(std::string s);
+    std::string punct(std::string s);
+    std::string func(std::string s);
+    std::string num(std::string s);
+    std::string var(std::string s);
+    std::string cmt(std::string s);
 } // namespace ReprClr
 
 using ReprClr::chr;
@@ -64,19 +62,19 @@ void reprInit();
 void reprDone();
 
 template <typename T> struct ReprWrapper {
-    static inline string repr(const T &value) { return value.repr(); }
+    static inline std::string repr(const T &value) { return value.repr(); }
 };
 
-template <class T> static inline string getClass(const T &v) {
+template <class T> static inline std::string getClass(const T &v) {
     (void)v;
     return "(unknown)";
 }
 
 // convenience wrapper
-template <typename T> static inline string repr(const T &value) { return ReprWrapper<T>::repr(value); }
+template <typename T> static inline std::string repr(const T &value) { return ReprWrapper<T>::repr(value); }
 
 // convenience wrapper for arrays with size
-template <typename T> static inline string reprArr(const T *value, std::size_t size) {
+template <typename T> static inline std::string reprArr(const T *value, std::size_t size) {
     std::ostringstream oss;
     if (Logger::lastInstance().istrace5())
         oss << "[";
@@ -106,7 +104,7 @@ template <typename T> static inline string reprArr(const T *value, std::size_t s
 
 #define INT_REPR(T)                                                                                                                                                                                    \
     template <> struct ReprWrapper<T> {                                                                                                                                                                \
-        static inline string repr(const T &value) {                                                                                                                                                    \
+        static inline std::string repr(const T &value) {                                                                                                                                               \
             std::ostringstream oss;                                                                                                                                                                    \
             oss << value;                                                                                                                                                                              \
             if (Logger::lastInstance().istrace5())                                                                                                                                                     \
@@ -127,7 +125,7 @@ INT_REPR(double);
 INT_REPR(long double);
 
 template <> struct ReprWrapper<bool> {
-    static inline string repr(const bool &value) {
+    static inline std::string repr(const bool &value) {
         if (Logger::lastInstance().istrace5())
             return value ? "true" : "false";
         else
@@ -135,8 +133,8 @@ template <> struct ReprWrapper<bool> {
     }
 };
 
-template <> struct ReprWrapper<string> {
-    static inline string repr(const string &value) {
+template <> struct ReprWrapper<std::string> {
+    static inline std::string repr(const std::string &value) {
         if (Logger::lastInstance().istrace5())
             return Utils::jsonEscape(value);
         else {
@@ -145,7 +143,7 @@ template <> struct ReprWrapper<string> {
             else if (Logger::lastInstance().istrace2())
                 return str(Utils::jsonEscape(value)) + (Logger::lastInstance().istrace4() ? punct("s") : "");
             else // for trace, debug, info, warning, error, fatal -> we don't want to see the
-                 // whole (possibly huge) string
+                 // whole (possibly huge) std::string
                 return str(Utils::jsonEscape(Utils::ellipsisize(value, Constants::loggingMaxStringLen))) + (Logger::lastInstance().istrace4() ? punct("s") : "");
         }
     }
@@ -153,7 +151,7 @@ template <> struct ReprWrapper<string> {
 
 // print generic pointers
 template <typename T> struct ReprWrapper<T *> {
-    static inline string repr(const T *const &value) {
+    static inline std::string repr(const T *const &value) {
         std::ostringstream oss;
         if (value)
             oss << value;
@@ -167,7 +165,7 @@ template <typename T> struct ReprWrapper<T *> {
 };
 
 template <> struct ReprWrapper<char *> {
-    static inline string repr(const char *const &value) {
+    static inline std::string repr(const char *const &value) {
         if (Logger::lastInstance().istrace5()) {
             if (value)
                 return Utils::jsonEscape(value);
@@ -180,7 +178,7 @@ template <> struct ReprWrapper<char *> {
                 else if (Logger::lastInstance().istrace2())
                     return str(Utils::jsonEscape(value));
                 else // for trace, debug, info, warning, error, fatal -> we don't want to see
-                     // the whole (possibly huge) string
+                     // the whole (possibly huge) std::string
                     return str(Utils::jsonEscape(Utils::ellipsisize(value, Constants::loggingMaxStringLen)));
             } else
                 return ReprWrapper<const void *>::repr(value);
@@ -191,11 +189,11 @@ template <> struct ReprWrapper<char *> {
 // TODO: @timo: escape for char literal
 #define CHAR_REPR(T)                                                                                                                                                                                   \
     template <> struct ReprWrapper<T> {                                                                                                                                                                \
-        static inline string repr(const T &value) {                                                                                                                                                    \
+        static inline std::string repr(const T &value) {                                                                                                                                               \
             if (Logger::lastInstance().istrace5())                                                                                                                                                     \
-                return string("\"") + Utils::jsonEscape(string(1, static_cast<char>(value))) + "\"";                                                                                                   \
+                return std::string("\"") + Utils::jsonEscape(std::string(1, static_cast<char>(value))) + "\"";                                                                                         \
             else                                                                                                                                                                                       \
-                return chr(string("'") + (value == '\\' ? "\\\\" : value == '\'' ? "\\'" : string(1, static_cast<char>(value))) + "'");                                                                \
+                return chr(std::string("'") + (value == '\\' ? "\\\\" : value == '\'' ? "\\'" : std::string(1, static_cast<char>(value))) + "'");                                                      \
         }                                                                                                                                                                                              \
     }
 
@@ -206,12 +204,12 @@ CHAR_REPR(signed char);
 #define MAKE_MEMBER_INIT_LIST(_, name) , name()
 #define MAKE_DECL(type, name) type name;
 #define MAKE_REPR_FN(_, name)                                                                                                                                                                          \
-    string CAT(repr_, name)() const { return ::repr(name); }
+    std::string CAT(repr_, name)() const { return ::repr(name); }
 #define MAKE_ASSIGN_GETTER(_, name) singleton.name = value.CAT(get, name)();
 #define MAKE_ASSIGN_MEMBER(_, name) singleton.name = value.name;
 #define MAKE_REFLECT(_, name) members[#name] = std::make_pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
 #define POST_REFLECT_GETTER(clsId, ...)                                                                                                                                                                \
-    static inline string getClass(const clsId &v) {                                                                                                                                                    \
+    static inline std::string getClass(const clsId &v) {                                                                                                                                               \
         (void)v;                                                                                                                                                                                       \
         return #clsId;                                                                                                                                                                                 \
     }                                                                                                                                                                                                  \
@@ -221,7 +219,7 @@ CHAR_REPR(signed char);
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
         FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
         FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
-        static inline string repr(const clsId &value) {                                                                                                                                                \
+        static inline std::string repr(const clsId &value) {                                                                                                                                           \
             (void)value;                                                                                                                                                                               \
             static ReprWrapper<clsId> singleton;                                                                                                                                                       \
             FOR_EACH_PAIR(MAKE_ASSIGN_GETTER, __VA_ARGS__)                                                                                                                                             \
@@ -231,7 +229,7 @@ CHAR_REPR(signed char);
         }                                                                                                                                                                                              \
     }
 #define POST_REFLECT_MEMBER(clsId, ...)                                                                                                                                                                \
-    static inline string getClass(const clsId &v) {                                                                                                                                                    \
+    static inline std::string getClass(const clsId &v) {                                                                                                                                               \
         (void)v;                                                                                                                                                                                       \
         return #clsId;                                                                                                                                                                                 \
     }                                                                                                                                                                                                  \
@@ -243,7 +241,7 @@ CHAR_REPR(signed char);
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
         FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
         FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
-        static inline string repr(const clsId &value) {                                                                                                                                                \
+        static inline std::string repr(const clsId &value) {                                                                                                                                           \
             (void)value;                                                                                                                                                                               \
             static ReprWrapper<clsId> singleton;                                                                                                                                                       \
             FOR_EACH_PAIR(MAKE_ASSIGN_MEMBER, __VA_ARGS__)                                                                                                                                             \
@@ -255,7 +253,7 @@ CHAR_REPR(signed char);
 
 // for vector
 template <typename T> struct ReprWrapper<vector<T> > {
-    static inline string repr(const vector<T> &value) {
+    static inline std::string repr(const vector<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -283,7 +281,7 @@ template <typename T> struct ReprWrapper<vector<T> > {
 };
 
 template <typename T> struct ReprWrapper<deque<T> > {
-    static inline string repr(const deque<T> &value) {
+    static inline std::string repr(const deque<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -312,7 +310,7 @@ template <typename T> struct ReprWrapper<deque<T> > {
 
 // for map
 template <typename K, typename V> struct ReprWrapper<map<K, V> > {
-    static inline string repr(const map<K, V> &value) {
+    static inline std::string repr(const map<K, V> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -348,7 +346,7 @@ template <typename K, typename V> struct ReprWrapper<map<K, V> > {
 
 // for map with comparison function
 template <typename K, typename V, typename C> struct ReprWrapper<map<K, V, C> > {
-    static inline string repr(const map<K, V, C> &value) {
+    static inline std::string repr(const map<K, V, C> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -384,7 +382,7 @@ template <typename K, typename V, typename C> struct ReprWrapper<map<K, V, C> > 
 
 // for multimap
 template <typename K, typename V> struct ReprWrapper<multimap<K, V> > {
-    static inline string repr(const multimap<K, V> &value) {
+    static inline std::string repr(const multimap<K, V> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "{";
@@ -420,7 +418,7 @@ template <typename K, typename V> struct ReprWrapper<multimap<K, V> > {
 
 // for pair
 template <typename F, typename S> struct ReprWrapper<pair<F, S> > {
-    static inline string repr(const pair<F, S> &value) {
+    static inline std::string repr(const pair<F, S> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";
@@ -439,7 +437,7 @@ template <typename F, typename S> struct ReprWrapper<pair<F, S> > {
 
 // for set
 template <typename T> struct ReprWrapper<set<T> > {
-    static inline string repr(const set<T> &value) {
+    static inline std::string repr(const set<T> &value) {
         std::ostringstream oss;
         if (Logger::lastInstance().istrace5())
             oss << "[";

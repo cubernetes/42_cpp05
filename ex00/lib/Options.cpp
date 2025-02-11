@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "Constants.hpp"
 #include "Logger.hpp"
 #include "Options.hpp"
 
@@ -36,7 +35,7 @@ Options::Options(int ac, char **av) : printHelp(), printVersion(), logLevel(Logg
     (void)ac;
     ++av;
     while (*av) {
-        string arg(*av);
+        std::string arg(*av);
         if (arg == "-h")
             printHelp = true;
         else if (arg == "-v")

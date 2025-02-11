@@ -14,8 +14,6 @@
     "    -v: Print version information.\n"                                                                                                                                                             \
     "    -h: Print help information.\n"
 
-using std::string;
-
 namespace Constants {
     const std::size_t bureaucratMinGrade = 1;
     const std::size_t bureaucratMaxGrade = 150;
@@ -23,6 +21,6 @@ namespace Constants {
     const std::size_t defaultBureaucratGrade = 42;
     bool forceNoColor = false;
     const std::size_t loggingMaxStringLen = 50;
-    const string &programVersion = "0.1";
-    const string &helpText = HELP_TEXT;
+    const std::string &programVersion = "0.1";
+    const std::string &helpText = HELP_TEXT;
 } // namespace Constants

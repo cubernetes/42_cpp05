@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include <ostream>
+#include <string>
 #include <unistd.h>
 
 #include "Ansi.hpp"
@@ -12,16 +13,16 @@
 #include "Utils.hpp"
 
 // clang-format off
-const string &Logger::fatalPrefix = "[ " + ansi::redBg("FATAL") + "  ] ";
-const string &Logger::errorPrefix = "[ " + ansi::red("ERROR") + "  ] ";
-const string &Logger::warningPrefix = "[ " + ansi::yellow("WARNING") + "   ] ";
-const string &Logger::infoPrefix = "[ " + ansi::white("INFO") + "   ] ";
-const string &Logger::debugPrefix = "[ " + ansi::rgbP("DEBUG", 146, 131, 116) + "  ] ";
-const string &Logger::tracePrefix = "[ " + ansi::rgbP("TRACE", 111, 97, 91) + "  ] ";
-const string &Logger::trace2Prefix = "[ " + ansi::rgbP("TRACE2", 111, 97, 91) + " ] "; // print full objects on construction/destruction
-const string &Logger::trace3Prefix = "[ " + ansi::rgbP("TRACE3", 111, 97, 91) + " ] "; // print object parameters as keyword-arguments
-const string &Logger::trace4Prefix = "[ " + ansi::rgbP("TRACE4", 111, 97, 91) + " ] "; // print aggregrate types verbosely with std:: prefix any everything
-const string &Logger::trace5Prefix = "[ " + ansi::rgbP("TRACE5", 111, 97, 91) + " ] "; // print as json (no color)
+const std::string &Logger::fatalPrefix = "[ " + ansi::redBg("FATAL") + "  ] ";
+const std::string &Logger::errorPrefix = "[ " + ansi::red("ERROR") + "  ] ";
+const std::string &Logger::warningPrefix = "[ " + ansi::yellow("WARNING") + "   ] ";
+const std::string &Logger::infoPrefix = "[ " + ansi::white("INFO") + "   ] ";
+const std::string &Logger::debugPrefix = "[ " + ansi::rgbP("DEBUG", 146, 131, 116) + "  ] ";
+const std::string &Logger::tracePrefix = "[ " + ansi::rgbP("TRACE", 111, 97, 91) + "  ] ";
+const std::string &Logger::trace2Prefix = "[ " + ansi::rgbP("TRACE2", 111, 97, 91) + " ] "; // print full objects on construction/destruction
+const std::string &Logger::trace3Prefix = "[ " + ansi::rgbP("TRACE3", 111, 97, 91) + " ] "; // print object parameters as keyword-arguments
+const std::string &Logger::trace4Prefix = "[ " + ansi::rgbP("TRACE4", 111, 97, 91) + " ] "; // print aggregrate types verbosely with std:: prefix any everything
+const std::string &Logger::trace5Prefix = "[ " + ansi::rgbP("TRACE5", 111, 97, 91) + " ] "; // print as json (no color)
 // clang-format on
 
 Logger::Logger(std::ostream &_os, Level _logLevel)
@@ -133,7 +134,7 @@ Logger::StreamWrapper::StreamWrapper(std::ostream &_os, Level _thisLevel, Level 
     }
 }
 
-static string formattedPid() { return "[" + cmt(" ") + repr(getpid()) + cmt(" ") + "] "; }
+static std::string formattedPid() { return "[" + cmt(" ") + repr(getpid()) + cmt(" ") + "] "; }
 
 Logger::StreamWrapper &Logger::StreamWrapper::operator()(bool printPrefix) {
     if (printPrefix)

@@ -4,11 +4,9 @@
 #include <string>
 #include <utility>
 
-using std::string;
-
 class Reflection;
 
-typedef string (Reflection::*ReprClosure)() const;
+typedef std::string (Reflection::*ReprClosure)() const;
 typedef std::pair<ReprClosure, const void *> Member;
 typedef std::map<const char *, Member> Members;
 
@@ -23,14 +21,14 @@ class Reflection {
 
     // set by the REFLECT macro
     static const char *_class;
-    virtual const string getClass(const Reflection &) const { return _class; }
+    virtual const std::string getClass(const Reflection &) const { return _class; }
 
     // populated by the REFELECT macro
     Members _members;
 
-    // generate a string representation of the class from _members by iterating over
+    // generate a std::string representation of the class from _members by iterating over
     // it and using _memberToString to serialize it member by member
-    string repr() const;
+    std::string repr() const;
 
   protected:
     // is implemented automatically in the derived class by the REFLECT macro from
@@ -48,10 +46,10 @@ class Reflection {
     // member.
     void reflectMember(ReprClosure reprClosure, const char *memberId, const void *memberPtr);
 
-    // return the string representation of a member
-    string _memberToStr(const Member &member) const;
+    // return the std::string representation of a member
+    std::string _memberToStr(const Member &member) const;
 
-    string reprStruct(string name, Members members) const;
+    std::string reprStruct(std::string name, Members members) const;
 };
 void swap(Reflection &a, Reflection &b) /* noexcept */;
 
