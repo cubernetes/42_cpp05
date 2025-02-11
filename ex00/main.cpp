@@ -8,6 +8,7 @@
 #include "Logger.hpp"
 #include "Options.hpp"
 #include "Repr.hpp"
+#include "Utils.hpp"
 
 void testJohn(Logger &log) {
     log.info() << "Trying to initialize a new Bureaucrat with grade " << repr(148) << std::endl;

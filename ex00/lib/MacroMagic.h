@@ -168,7 +168,7 @@
 #define FOR_EACH_IDX_INDIRECT() FOR_EACH_IDX_
 
 #define DECL_N(n, type, name, ...)                                                                                                                                                                     \
-    void CAT(reflectMember, n)() { reflectMember((ReprClosure) & Self::CAT(reprClosure, n), #name, &name); }                                                                                           \
+    void CAT(reflectMember, n)() { reflectMember(static_cast<ReprClosure>(&Self::CAT(reprClosure, n)), #name, &name); }                                                                                \
     std::string CAT(reprClosure, n)() const { return ::repr(name); }                                                                                                                                   \
     type name DEFER(IF)(NOT_EMPTY(__VA_ARGS__))(= __VA_ARGS__, );
 
