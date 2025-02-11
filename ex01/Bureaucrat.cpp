@@ -105,7 +105,8 @@ void Bureaucrat::signForm(Form &f) CPP98(throw()) CPP23(noexcept) {
         f.beSigned(*this);
         log.info() << "Signing success: " << *this << " signed " << f << std::endl;
     } catch (const Form::GradeTooLowException &e) {
-        log.warning() << "Signing failure: " << *this << " could NOT sign " << f << ". Reason: " << ansi::red(e.what()) << std::endl;
+        log.warning() << "Signing failure: " << *this << " could NOT sign " << f << "." << std::endl;
+        log.info() << "Signing failure reason: " << ansi::red(e.what()) << std::endl;
     }
 }
 

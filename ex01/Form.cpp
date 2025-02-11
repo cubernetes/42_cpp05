@@ -23,9 +23,9 @@ const char *Form::_class = "Form";
 CPP23([[nodiscard]])
 static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false)) {
     if (grade > Constants::minGrade)
-        throw Form::GradeTooLowException(grade);
+        throw Form::GradeTooLowException(grade, Constants::minGrade);
     else if (grade < Constants::maxGrade)
-        throw Form::GradeTooHighException(grade);
+        throw Form::GradeTooHighException(grade, Constants::maxGrade);
     return grade;
 }
 
@@ -98,17 +98,17 @@ CPP23([[nodiscard]]) const std::size_t &Form::getExecGrade() const CPP98(throw()
 // @throws: Form::GradeTooLowException
 void Form::beSigned(const Bureaucrat &b) CPP98(throw(Form::GradeTooLowException)) CPP23(noexcept(false)) {
     if (b.getGrade() > _signGrade)
-        throw Form::GradeTooLowException(b.getGrade());
+        throw Form::GradeTooLowException(b.getGrade(), _signGrade);
     _signed = true;
 }
 
 Form::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
-Form::GradeTooHighException::GradeTooHighException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
-    : std::range_error("Grade is too high: " + Utils::STR(grade) + ", maximum allowed grade is " + Utils::STR(Constants::maxGrade)) {}
+Form::GradeTooHighException::GradeTooHighException(std::size_t grade, std::size_t maxGrade) CPP98(throw()) CPP23(noexcept)
+    : std::range_error("Grade is too high: " + Utils::STR(grade) + ", maximum allowed grade is " + Utils::STR(maxGrade)) {}
 
 Form::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept){};
-Form::GradeTooLowException::GradeTooLowException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
-    : std::range_error("Grade is too low: " + Utils::STR(grade) + ", minimum required grade is " + Utils::STR(Constants::minGrade)) {}
+Form::GradeTooLowException::GradeTooLowException(std::size_t grade, std::size_t minGrade) CPP98(throw()) CPP23(noexcept)
+    : std::range_error("Grade is too low: " + Utils::STR(grade) + ", minimum required grade is " + Utils::STR(minGrade)) {}
 
 std::ostream &operator<<(std::ostream &os, const Form &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const Form &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

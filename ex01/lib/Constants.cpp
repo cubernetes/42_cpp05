@@ -5,7 +5,7 @@
 
 // leave in .cpp file
 #define HELP_TEXT                                                                                                                                                                                      \
-    "Usage: ./ex00 [options]\n"                                                                                                                                                                        \
+    "Usage: ./ex01 [options]\n"                                                                                                                                                                        \
     "\n"                                                                                                                                                                                               \
     "Options:\n"                                                                                                                                                                                       \
     "    -l LEVEL: Specify loglevel. Supported loglevels are"                                                                                                                                          \

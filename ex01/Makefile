@@ -1,5 +1,5 @@
 # config
-NAME := ex00
+NAME := ex01
 # change to c for C projects and cpp for C++ projects
 # source files must still be specified with their extension
 EXT := cpp
