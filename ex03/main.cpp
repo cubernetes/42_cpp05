@@ -18,6 +18,7 @@ int main(int ac, char **av) {
         }
         Logger log(std::cerr, options.logLevel);
 
+        // FOR EVAL: Talk about static initialization order fiasco (SIOF)
         Intern intern0;
 
         Bureaucrat gigachadBureaucrat("Gigachad", 1);

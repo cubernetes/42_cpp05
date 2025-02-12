@@ -88,7 +88,6 @@ endif
 SRC :=
 
 vpath %.$(EXT) .
-SRC += Intern.cpp
 SRC += Bureaucrat.cpp
 SRC += AForm.cpp
 SRC += ShrubberyCreationForm.cpp
@@ -104,6 +103,7 @@ SRC += Options.cpp
 SRC += Reflection.cpp
 SRC += Repr.cpp
 SRC += Utils.cpp
+SRC += Intern.cpp
 
 # object vars
 OBJ := $(SRC:.$(EXT)=.o)
