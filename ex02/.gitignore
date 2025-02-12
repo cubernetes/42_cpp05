@@ -1,0 +1,26 @@
+# test files
+test.cpp
+test.c
+a.c
+
+# build artefacts
+a.out
+ex02
+
+# objects
+obj/
+
+# clangd stuff
+.cache/
+compile_commands.json
+
+# other sources
+test*.cpp
+test*.c
+
+# debugging
+.gdbinit
+
+# development tools
+.vim/
+.gdb_history
