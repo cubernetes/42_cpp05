@@ -73,7 +73,7 @@ CPP23([[nodiscard]]) Bureaucrat &Bureaucrat::operator=(Bureaucrat other) CPP98(t
 CPP23(constexpr)
 void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
-    ::swap(throwIfGradeOutOfBounds(_grade), throwIfGradeOutOfBounds(other._grade));
+    ::swap(_grade, other._grade);
 }
 
 CPP23(constexpr)

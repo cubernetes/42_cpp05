@@ -79,8 +79,8 @@ CPP23(constexpr)
 void Form::swap(Form &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_signed, other._signed);
-    ::swap(throwIfGradeOutOfBounds(_signGrade), throwIfGradeOutOfBounds(other._signGrade));
-    ::swap(throwIfGradeOutOfBounds(_execGrade), throwIfGradeOutOfBounds(other._execGrade));
+    ::swap(_signGrade, other._signGrade);
+    ::swap(_execGrade, other._execGrade);
 }
 
 CPP23(constexpr)
