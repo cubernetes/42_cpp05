@@ -41,9 +41,9 @@ ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target) CPP98(th
 }
 
 // @throws: AForm::GradeTooHighException, AForm::GradeTooLowException
-ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target, Logger &log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
+ShrubberyCreationForm::ShrubberyCreationForm(const std::string &target, Logger &_log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
     : AForm((trace_arg_ctor1(target), Constants::shrubberyCreationFormName), Constants::defaultShrubberyCreationFormSigned, Constants::shrubberyCreationFormSignGrade,
-            Constants::shrubberyCreationFormExecGrade, log),
+            Constants::shrubberyCreationFormExecGrade, _log),
       _target(const_cast<std::string &>(target)) {
 } catch (...) {
     Logger::lastInstance().error() << "Failed to construct ShrubberyCreationForm due to exception in member variable initialization" << std::endl;
@@ -71,14 +71,14 @@ CPP23(constexpr) void ShrubberyCreationForm::swap(ShrubberyCreationForm &other) 
     TRACE_SWAP_END;
 }
 
-CPP23(constexpr) void swap(ShrubberyCreationForm &lhs, ShrubberyCreationForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+void swap(ShrubberyCreationForm &lhs, ShrubberyCreationForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 
 CPP23([[nodiscard]]) std::string ShrubberyCreationForm::repr() CPP98(throw()) CPP23(noexcept) { return ::repr(*this); }
 
 CPP23([[nodiscard]]) const std::string &ShrubberyCreationForm::get_target() const CPP98(throw()) CPP23(noexcept) { return _target; }
 
 // @throws: AForm::GradeTooLowException
-void ShrubberyCreationForm::_fulfil() const CPP98(throw()) CPP23(noexcept override) { log.info() << "Creating file " << _target << "_shrubbery with ASCII tree inside" << std::endl; }
+void ShrubberyCreationForm::_fulfil() const CPP98(throw()) CPP23(noexcept) { log.info() << "Creating file " << _target << "_shrubbery with ASCII tree inside" << std::endl; }
 
 std::ostream &operator<<(std::ostream &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

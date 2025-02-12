@@ -42,9 +42,9 @@ PresidentialPardonForm::PresidentialPardonForm(const std::string &target) CPP98(
 }
 
 // @throws: AForm::GradeTooHighException, AForm::GradeTooLowException
-PresidentialPardonForm::PresidentialPardonForm(const std::string &target, Logger &log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
+PresidentialPardonForm::PresidentialPardonForm(const std::string &target, Logger &_log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
     : AForm((trace_arg_ctor1(target), Constants::presidentialPardonFormName), Constants::defaultShrubberyCreationFormSigned, Constants::presidentialPardonFormSignGrade,
-            Constants::presidentialPardonFormExecGrade, log),
+            Constants::presidentialPardonFormExecGrade, _log),
       _target(const_cast<std::string &>(target)) {
 } catch (...) {
     Logger::lastInstance().error() << "Failed to construct PresidentialPardonForm due to exception in member variable initialization" << std::endl;
@@ -72,14 +72,14 @@ CPP23(constexpr) void PresidentialPardonForm::swap(PresidentialPardonForm &other
     TRACE_SWAP_END;
 }
 
-CPP23(constexpr) void swap(PresidentialPardonForm &lhs, PresidentialPardonForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+void swap(PresidentialPardonForm &lhs, PresidentialPardonForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 
 CPP23([[nodiscard]]) std::string PresidentialPardonForm::repr() CPP98(throw()) CPP23(noexcept) { return ::repr(*this); }
 
 CPP23([[nodiscard]]) const std::string &PresidentialPardonForm::get_target() const CPP98(throw()) CPP23(noexcept) { return _target; }
 
 // @throws: AForm::GradeTooLowException
-void PresidentialPardonForm::_fulfil() const CPP98(throw()) CPP23(noexcept override) { log.info() << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl; }
+void PresidentialPardonForm::_fulfil() const CPP98(throw()) CPP23(noexcept) { log.info() << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl; }
 
 std::ostream &operator<<(std::ostream &os, const PresidentialPardonForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const PresidentialPardonForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

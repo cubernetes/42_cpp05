@@ -68,7 +68,7 @@ class AForm {
     void execute(const Bureaucrat &executor) const CPP98(throw(AForm::GradeTooLowException, AForm::FormNotSignedException)) CPP23(noexcept(false));
 };
 
-CPP23(constexpr) void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept);
+void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept);
 
 std::ostream &operator<<(std::ostream &os, const AForm &val) CPP98(throw()) CPP23(noexcept);
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const AForm &val) CPP98(throw()) CPP23(noexcept);

@@ -42,9 +42,9 @@ RobotomyRequestForm::RobotomyRequestForm(const std::string &target) CPP98(throw(
 }
 
 // @throws: AForm::GradeTooHighException, AForm::GradeTooLowException
-RobotomyRequestForm::RobotomyRequestForm(const std::string &target, Logger &log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
+RobotomyRequestForm::RobotomyRequestForm(const std::string &target, Logger &_log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) try
     : AForm((trace_arg_ctor1(target), Constants::robotomyRequestFormName), Constants::defaultShrubberyCreationFormSigned, Constants::robotomyRequestFormSignGrade,
-            Constants::robotomyRequestFormExecGrade, log),
+            Constants::robotomyRequestFormExecGrade, _log),
       _target(const_cast<std::string &>(target)) {
 } catch (...) {
     Logger::lastInstance().error() << "Failed to construct RobotomyRequestForm due to exception in member variable initialization" << std::endl;
@@ -72,14 +72,14 @@ CPP23(constexpr) void RobotomyRequestForm::swap(RobotomyRequestForm &other) CPP9
     TRACE_SWAP_END;
 }
 
-CPP23(constexpr) void swap(RobotomyRequestForm &lhs, RobotomyRequestForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+void swap(RobotomyRequestForm &lhs, RobotomyRequestForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 
 CPP23([[nodiscard]]) std::string RobotomyRequestForm::repr() CPP98(throw()) CPP23(noexcept) { return ::repr(*this); }
 
 CPP23([[nodiscard]]) const std::string &RobotomyRequestForm::get_target() const CPP98(throw()) CPP23(noexcept) { return _target; }
 
 // @throws: AForm::GradeTooLowException
-void RobotomyRequestForm::_fulfil() const CPP98(throw()) CPP23(noexcept override) {
+void RobotomyRequestForm::_fulfil() const CPP98(throw()) CPP23(noexcept) {
     log.info() << "Drilling noises..." << std::endl;
     if (std::rand() % 2)
         log.warning() << "Oh no! Failed to robotomize " << _target << std::endl;

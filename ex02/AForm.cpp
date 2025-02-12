@@ -89,7 +89,7 @@ CPP23(constexpr) void AForm::swap(AForm &other) CPP98(throw()) CPP23(noexcept) {
     TRACE_SWAP_END;
 }
 
-CPP23(constexpr) void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 
 CPP23([[nodiscard]]) std::string AForm::repr() CPP98(throw()) CPP23(noexcept) { return ::repr(*this); }
 

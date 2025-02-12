@@ -18,10 +18,10 @@ class ShrubberyCreationForm : public AForm {
     ~ShrubberyCreationForm() CPP98(throw()) CPP23(noexcept);
     ShrubberyCreationForm() CPP98(throw(ShrubberyCreationForm::GradeTooHighException, ShrubberyCreationForm::GradeTooLowException)) CPP23(noexcept(false));
     explicit ShrubberyCreationForm(const std::string &target) CPP98(throw(ShrubberyCreationForm::GradeTooHighException, ShrubberyCreationForm::GradeTooLowException)) CPP23(noexcept(false));
-    ShrubberyCreationForm(const std::string &target, Logger &log) CPP98(throw(ShrubberyCreationForm::GradeTooHighException, ShrubberyCreationForm::GradeTooLowException)) CPP23(noexcept(false));
+    ShrubberyCreationForm(const std::string &target, Logger &_log) CPP98(throw(ShrubberyCreationForm::GradeTooHighException, ShrubberyCreationForm::GradeTooLowException)) CPP23(noexcept(false));
     ShrubberyCreationForm(const ShrubberyCreationForm &other) CPP98(throw(ShrubberyCreationForm::GradeTooHighException, ShrubberyCreationForm::GradeTooLowException)) CPP23(noexcept(false));
     ShrubberyCreationForm &operator=(ShrubberyCreationForm other) CPP98(throw()) CPP23(noexcept);
-    CPP23(constexpr) void swap(ShrubberyCreationForm &other) CPP98(throw()) CPP23(noexcept(false));
+    CPP23(constexpr) void swap(ShrubberyCreationForm &other) CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) std::string repr() CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &get_target() const CPP98(throw()) CPP23(noexcept);
@@ -30,7 +30,7 @@ class ShrubberyCreationForm : public AForm {
     void _fulfil() const CPP98(throw()) CPP23(noexcept override);
 };
 
-CPP23(constexpr) void swap(ShrubberyCreationForm &lhs, ShrubberyCreationForm &rhs) CPP98(throw()) CPP23(noexcept);
+void swap(ShrubberyCreationForm &lhs, ShrubberyCreationForm &rhs) CPP98(throw()) CPP23(noexcept);
 
 std::ostream &operator<<(std::ostream &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept);
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept);
