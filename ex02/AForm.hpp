@@ -36,9 +36,9 @@ class AForm : public Reflection {
     AForm(const std::string &name, bool signed_, std::size_t signGrade, std::size_t execGrade, Logger &_log) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException))
         CPP23(noexcept(false));
     AForm(const AForm &other) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false));
-    AForm &operator=(AForm other) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false));
+    CPP23([[nodiscard]]) AForm &operator=(AForm other) CPP98(throw()) CPP23(noexcept);
     CPP23(constexpr)
-    void swap(AForm &other) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false));
+    void swap(AForm &other) CPP98(throw()) CPP23(noexcept);
     static const char *_class;
     CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) CPP23(override);
 
@@ -52,7 +52,7 @@ class AForm : public Reflection {
 };
 
 CPP23(constexpr)
-void swap(AForm &lhs, AForm &rhs) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false));
+void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept);
 
 std::ostream &operator<<(std::ostream &os, const AForm &val) CPP98(throw()) CPP23(noexcept);
 Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const AForm &val) CPP98(throw()) CPP23(noexcept);

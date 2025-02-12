@@ -69,25 +69,22 @@ Form::Form(const Form &other) CPP98(throw(Form::GradeTooHighException, Form::Gra
     throw;
 }
 
-// @throws: Form::GradeTooHighException, Form::GradeTooLowException
-Form &Form::operator=(Form other) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false)) {
+CPP23([[nodiscard]]) Form &Form::operator=(Form other) CPP98(throw()) CPP23(noexcept) {
     TRACE_COPY_ASSIGN_OP;
     ::swap(*this, other);
     return *this;
 }
 
-// @throws: Form::GradeTooHighException, Form::GradeTooLowException
 CPP23(constexpr)
-void Form::swap(Form &other) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false)) {
+void Form::swap(Form &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_signed, other._signed);
     ::swap(throwIfGradeOutOfBounds(_signGrade), throwIfGradeOutOfBounds(other._signGrade));
     ::swap(throwIfGradeOutOfBounds(_execGrade), throwIfGradeOutOfBounds(other._execGrade));
 }
 
-// @throws: Form::GradeTooHighException, Form::GradeTooLowException
 CPP23(constexpr)
-void swap(Form &lhs, Form &rhs) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false)) { lhs.swap(rhs); }
+void swap(Form &lhs, Form &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 CPP23([[nodiscard]]) const std::string Form::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &Form::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }

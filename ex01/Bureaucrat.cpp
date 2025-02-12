@@ -64,23 +64,20 @@ Bureaucrat::Bureaucrat(const Bureaucrat &other) CPP98(throw(Bureaucrat::GradeToo
     throw;
 }
 
-// @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
-Bureaucrat &Bureaucrat::operator=(Bureaucrat other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
+CPP23([[nodiscard]]) Bureaucrat &Bureaucrat::operator=(Bureaucrat other) CPP98(throw()) CPP23(noexcept) {
     TRACE_COPY_ASSIGN_OP;
     ::swap(*this, other);
     return *this;
 }
 
-// @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
 CPP23(constexpr)
-void Bureaucrat::swap(Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
+void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(throwIfGradeOutOfBounds(_grade), throwIfGradeOutOfBounds(other._grade));
 }
 
-// @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
 CPP23(constexpr)
-void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) { lhs.swap(rhs); }
+void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 CPP23([[nodiscard]]) const std::string Bureaucrat::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &Bureaucrat::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }
