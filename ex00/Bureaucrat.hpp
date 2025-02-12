@@ -36,7 +36,7 @@ class Bureaucrat : public Reflection {
     CPP23([[nodiscard]]) Bureaucrat &operator=(Bureaucrat other) CPP98(throw()) CPP23(noexcept);
     CPP23(constexpr) void swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept);
     static const char *_class;
-    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) CPP23(override);
+    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &getName() const CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) const std::size_t &getGrade() const CPP98(throw()) CPP23(noexcept);

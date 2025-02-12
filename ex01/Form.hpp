@@ -39,7 +39,7 @@ class Form : public Reflection {
     CPP23([[nodiscard]]) Form &operator=(Form other) CPP98(throw()) CPP23(noexcept);
     CPP23(constexpr) void swap(Form &other) CPP98(throw()) CPP23(noexcept);
     static const char *_class;
-    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) CPP23(override);
+    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &getName() const CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) const bool &getSigned() const CPP98(throw()) CPP23(noexcept);
@@ -47,7 +47,7 @@ class Form : public Reflection {
     CPP23([[nodiscard]]) const std::size_t &getExecGrade() const CPP98(throw()) CPP23(noexcept);
 
     // @throws: Form::GradeTooLowException
-    void beSigned(const Bureaucrat &b) CPP98(throw(Form::GradeTooLowException)) CPP23(noexcept(false));
+    void beSigned(const Bureaucrat &bureaucat) CPP98(throw(Form::GradeTooLowException)) CPP23(noexcept(false));
 };
 
 CPP23(constexpr) void swap(Form &lhs, Form &rhs) CPP98(throw()) CPP23(noexcept);

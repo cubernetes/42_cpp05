@@ -8,114 +8,91 @@
 #include "Constants.hpp"
 #include "Logger.hpp"
 #include "Options.hpp"
-#include "Repr.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
-void testJohn(Logger &log) {
-    log.debug() << "Trying to initialize a new Bureaucrat with grade " << repr(3) << std::endl;
-    Bureaucrat john("John Smith", 3, log);
-    log.debug() << "Return value of john.getName():          " << john.getName() << std::endl;
-    log.debug() << "Return value of john.getGrade():         " << john.getGrade() << std::endl;
-    log.debug() << "Insertion operator (<<) overload output: " << john << std::endl;
+void shrubberyTests(Logger &log, Bureaucrat &johnDoe, Bureaucrat &lindaSmith, Bureaucrat &bobRoss, ShrubberyCreationForm &gardenShrubbery, ShrubberyCreationForm &mallShrubbery) {
+    log.info() << "The following will fail" << std::endl;
+    johnDoe.signForm(gardenShrubbery);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling first john.incrementGrade()" << std::endl;
-        john.incrementGrade();
-        log.debug() << "John now: " << john << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << ", continuing anyway\n" << std::endl;
-    }
+    log.info() << "The following 2 will succeed" << std::endl;
+    lindaSmith.signForm(gardenShrubbery);
+    bobRoss.signForm(mallShrubbery);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling second john.incrementGrade()" << std::endl;
-        john.incrementGrade();
-        log.debug() << "John now: " << john << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << ", continuing anyway\n" << std::endl;
-    }
+    log.info() << "The following 3 will fail" << std::endl;
+    johnDoe.executeForm(gardenShrubbery);
+    johnDoe.executeForm(mallShrubbery);
+    lindaSmith.executeForm(mallShrubbery);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling third john.incrementGrade()" << std::endl;
-        john.incrementGrade();
-        log.debug() << "John now: " << john << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << ", continuing anyway\n" << std::endl;
-    }
-
-    try {
-        log.debug() << "Calling fourth john.incrementGrade()" << std::endl;
-        john.incrementGrade();
-        log.debug() << "John now: " << john << std::endl << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << ", continuing anyway\n\n" << std::endl;
-    }
+    log.info() << "The following 2 will succeed" << std::endl;
+    bobRoss.executeForm(mallShrubbery);
+    bobRoss.executeForm(gardenShrubbery);
+    log.info << std::endl;
 }
 
-void testJane(Logger &log) {
-    log.debug() << "Trying to initialize a new Bureaucrat with grade " << repr(148) << std::endl;
-    Bureaucrat jane("Jane Smith", 148, log);
-    log.debug() << "Return value of jane.getName():          " << jane.getName() << std::endl;
-    log.debug() << "Return value of jane.getGrade():         " << jane.getGrade() << std::endl;
-    log.debug() << "Insertion operator (<<) overload output: " << jane << std::endl;
+void robotomyTests(Logger &log, Bureaucrat &robertFord, Bureaucrat &bobRoss, Bureaucrat &warrenBuffet, Bureaucrat &elonMusk, RobotomyRequestForm &doloresRobotomy, RobotomyRequestForm &benderRobotomy,
+                   RobotomyRequestForm &HAL9000Robotomy) {
+    log.info() << "The following 2 will succeed" << std::endl;
+    robertFord.signForm(doloresRobotomy);
+    robertFord.executeForm(doloresRobotomy);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling first jane.decrementGrade()" << std::endl;
-        jane.decrementGrade();
-        log.debug() << "John now: " << jane << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
-    }
+    log.info() << "The following will succeed" << std::endl;
+    bobRoss.signForm(benderRobotomy);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling second jane.decrementGrade()" << std::endl;
-        jane.decrementGrade();
-        log.debug() << "John now: " << jane << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
-    }
+    log.info() << "The following will fail" << std::endl;
+    bobRoss.executeForm(benderRobotomy);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling third jane.decrementGrade()" << std::endl;
-        jane.decrementGrade();
-        log.debug() << "John now: " << jane << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
-    }
+    log.info() << "The following will succeed" << std::endl;
+    warrenBuffet.executeForm(benderRobotomy);
+    log.info << std::endl;
 
-    try {
-        log.debug() << "Calling fourth jane.decrementGrade()" << std::endl;
-        jane.decrementGrade();
-        log.debug() << "John now: " << jane << std::endl << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n\n" << std::endl;
-    }
+    log.info() << "The following 2 will succeed" << std::endl;
+    elonMusk.signForm(HAL9000Robotomy);
+    elonMusk.executeForm(HAL9000Robotomy);
+    log.info << std::endl;
 }
 
-void testFailure1(Logger &log) {
-    try {
-        log.debug() << "Trying to initialize a new Bureaucrat with grade " << repr(1000) << std::endl;
-        Bureaucrat failure("Failure Smith", 1000, log);
-        log.debug() << "Return value of failure.getName():          " << failure.getName() << std::endl;
-        log.debug() << "Return value of failure.getGrade():         " << failure.getGrade() << std::endl;
-        log.debug() << "Insertion operator (<<) overload output: " << failure << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << std::endl << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << std::endl << std::endl << std::endl;
-    }
-}
+void presidentialPardonTests(Logger &log, Bureaucrat &johnDoe, Bureaucrat &lindaSmith, Bureaucrat &bobRoss, Bureaucrat &warrenBuffet, Bureaucrat &edwardMorra, Bureaucrat &satyaNadella,
+                             Bureaucrat &elonMusk, Bureaucrat &robertFord, PresidentialPardonForm &aaronSwartzPardon, PresidentialPardonForm &edwardSnowdenPardon,
+                             PresidentialPardonForm &julianAssangePardon, PresidentialPardonForm &johnDoePardon) {
+    log.info() << "The following 3 will fail" << std::endl;
+    lindaSmith.signForm(aaronSwartzPardon);
+    bobRoss.signForm(edwardSnowdenPardon);
+    warrenBuffet.signForm(julianAssangePardon);
+    log.info << std::endl;
 
-void testFailure2(Logger &log) {
-    try {
-        log.debug() << "Trying to initialize a new Bureaucrat with grade " << repr(0) << std::endl;
-        Bureaucrat failure("Failure Smith", 0, log);
-        log.debug() << "Return value of failure.getName():          " << failure.getName() << std::endl;
-        log.debug() << "Return value of failure.getGrade():         " << failure.getGrade() << std::endl;
-        log.debug() << "Insertion operator (<<) overload output: " << failure << std::endl;
-    } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
-        Logger::lastInstance().debug() << "Caught GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << std::endl << std::endl << std::endl;
-    } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
-        Logger::lastInstance().debug() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << std::endl << std::endl << std::endl;
-    }
+    log.info() << "The following will fail" << std::endl;
+    edwardMorra.executeForm(julianAssangePardon);
+    log.info << std::endl;
+
+    log.info() << "The following 3 will succeed" << std::endl;
+    edwardMorra.signForm(aaronSwartzPardon);
+    edwardMorra.signForm(edwardSnowdenPardon);
+    edwardMorra.signForm(julianAssangePardon);
+    log.info << std::endl;
+
+    log.info() << "The following will fail" << std::endl;
+    satyaNadella.executeForm(aaronSwartzPardon);
+    log.info << std::endl;
+
+    log.info() << "The following 3 will succeed" << std::endl;
+    elonMusk.executeForm(aaronSwartzPardon);
+    robertFord.executeForm(edwardSnowdenPardon);
+    edwardMorra.executeForm(julianAssangePardon);
+    log.info << std::endl;
+
+    log.info() << "The following 3 will fail" << std::endl;
+    johnDoe.signForm(johnDoePardon);
+    johnDoe.executeForm(johnDoePardon);
+    robertFord.executeForm(johnDoePardon);
+    log.info << std::endl;
 }
 
 int main(int ac, char **av) {
@@ -127,29 +104,40 @@ int main(int ac, char **av) {
         }
         Logger log(std::cerr, options.logLevel);
 
-        try {
-            AForm fail("28B", false, 160, 20, log);
-            log.info << std::endl;
-        } catch (const AForm::GradeTooLowException &e) {
-            log.warning() << "Caught GradeTooLowException: " << ansi::red(e.what()) << std::endl;
-        }
-        AForm f("28C", false, 10, 20, log);
-        Bureaucrat a("John", 9, log);
-        Bureaucrat b("Jane", 80, log);
-        log.info << std::endl;
-        a.signForm(f);
-        log.info << std::endl;
-        b.signForm(f);
-        log.info << std::endl;
-        // testJohn(log);
-        // testJane(log);
-        // testFailure1(log);
-        // testFailure2(log);
+        ShrubberyCreationForm gardenShrubbery("Garden");
+        ShrubberyCreationForm mallShrubbery("Mall");
 
-        log.info() << "Exiting" << std::endl;
+        RobotomyRequestForm benderRobotomy("Bender");
+        RobotomyRequestForm doloresRobotomy("Dolores Abernathy");
+        RobotomyRequestForm HAL9000Robotomy("HAL 9000");
+
+        PresidentialPardonForm aaronSwartzPardon("Aaron Swartz");
+        PresidentialPardonForm julianAssangePardon("Julian Assange");
+        PresidentialPardonForm edwardSnowdenPardon("Edward Snowden");
+        PresidentialPardonForm johnDoePardon("John Doe");
+
+        Bureaucrat edwardMorra("Edward Morra", 1);
+        Bureaucrat robertFord("Robert Ford", 3);
+        Bureaucrat elonMusk("Elon Musk", 4);
+
+        Bureaucrat satyaNadella("Satya Nadella", 15);
+        Bureaucrat warrenBuffet("Warren Buffet", 40);
+        Bureaucrat bobRoss("Bob Ross", 72);
+
+        Bureaucrat lindaSmith("Linda Smith", 144);
+        Bureaucrat johnDoe("John Doe", 150);
+
+        shrubberyTests(log, johnDoe, lindaSmith, bobRoss, gardenShrubbery, mallShrubbery);
+        robotomyTests(log, robertFord, bobRoss, warrenBuffet, elonMusk, doloresRobotomy, benderRobotomy, HAL9000Robotomy);
+        presidentialPardonTests(log, johnDoe, lindaSmith, bobRoss, warrenBuffet, edwardMorra, satyaNadella, elonMusk, robertFord, aaronSwartzPardon, edwardSnowdenPardon, julianAssangePardon,
+                                johnDoePardon);
+
+        log.debug() << "Exiting" << std::endl;
         return EXIT_SUCCESS;
     } catch (const std::exception &exception) {
         Logger::lastInstance().fatal() << ansi::red(exception.what()) << std::endl;
         return EXIT_FAILURE;
+    } catch (...) {
+        std::cout << "WHAT" << std::endl;
     }
 }

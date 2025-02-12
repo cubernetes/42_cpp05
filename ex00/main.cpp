@@ -131,7 +131,7 @@ int main(int ac, char **av) {
         testFailure1(log);
         testFailure2(log);
 
-        log.info() << "Exiting" << std::endl;
+        log.debug() << "Exiting" << std::endl;
         return EXIT_SUCCESS;
     } catch (const Bureaucrat::GradeTooHighException &gradeTooHigh) {
         Logger::lastInstance().fatal() << "Caught fatal GradeTooHighException: " << ansi::red(gradeTooHigh.what()) << std::endl;

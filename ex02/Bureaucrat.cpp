@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstddef>
+#include <exception>
 #include <ostream>
 #include <stdexcept>
 #include <string>
@@ -42,6 +43,15 @@ Bureaucrat::Bureaucrat() CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucr
     reflect();
 } catch (...) {
     Logger::lastInstance().error() << "Failed to default-construct Bureaucrat due to exception in member variable initialization" << std::endl;
+    throw;
+}
+
+// @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
+Bureaucrat::Bureaucrat(const std::string &name, std::size_t grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) try
+    : Reflection(), _name((trace_arg_ctor1(name, grade), name)), _grade(throwIfGradeOutOfBounds(grade)), log(Logger::lastInstance()) {
+    reflect();
+} catch (...) {
+    Logger::lastInstance().error() << "Failed to construct Bureaucrat due to exception in member variable initialization" << std::endl;
     throw;
 }
 
@@ -97,10 +107,26 @@ void Bureaucrat::decrementGrade() CPP98(throw(Bureaucrat::GradeTooLowException))
 void Bureaucrat::signForm(AForm &f) CPP98(throw()) CPP23(noexcept) {
     try {
         f.beSigned(*this);
-        log.info() << "Signing success: " << *this << " signed " << f << std::endl;
-    } catch (const AForm::GradeTooLowException &e) {
-        log.warning() << "Signing failure: " << *this << " could NOT sign " << f << "." << std::endl;
+        log.info() << "Form signing success: " << *this << " signed " << f.repr() << std::endl;
+    } catch (const std::exception &e) {
+        log.warning() << "Form signing failure: " << *this << " could NOT sign " << f.repr() << "." << std::endl;
         log.info() << "Signing failure reason: " << ansi::red(e.what()) << std::endl;
+    } catch (...) {
+        log.warning() << "Form signing failure: " << *this << " could NOT sign " << f.repr() << "." << std::endl;
+        log.info() << "Signing failure reason: Unknown" << std::endl;
+    }
+}
+
+void Bureaucrat::executeForm(AForm &f) CPP98(throw()) CPP23(noexcept) {
+    try {
+        f.execute(*this);
+        log.info() << "Form execution success: " << *this << " executed " << f.repr() << std::endl;
+    } catch (const std::exception &e) {
+        log.warning() << "Form execution failure: " << *this << " could NOT execute " << f.repr() << "." << std::endl;
+        log.info() << "Execution failure reason: " << ansi::red(e.what()) << std::endl;
+    } catch (...) {
+        log.warning() << "Form execution failure: " << *this << " could NOT execute " << f.repr() << "." << std::endl;
+        log.info() << "Execution failure reason: Unknown" << std::endl;
     }
 }
 

@@ -202,7 +202,7 @@ CHAR_REPR(signed char);
     std::string CAT(repr_, name)() const { return ::repr(name); }
 #define MAKE_ASSIGN_GETTER(_, name) singleton.name = value.CAT(get, name)();
 #define MAKE_ASSIGN_MEMBER(_, name) singleton.name = value.name;
-#define MAKE_REFLECT(_, name) members[#name] = std::make_std::pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
+#define MAKE_REFLECT(_, name) members[#name] = std::make_pair(static_cast<ReprClosure>(&ReprWrapper::CAT(repr_, name)), &singleton.name);
 #define POST_REFLECT_GETTER(clsId, ...)                                                                                                                                                                \
     CPP23([[nodiscard]]) static inline std::string getClass(const clsId &v) CPP98(throw()) CPP23(noexcept) {                                                                                           \
         (void)v;                                                                                                                                                                                       \
@@ -210,7 +210,10 @@ CHAR_REPR(signed char);
     }                                                                                                                                                                                                  \
     template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
         void reflect() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
-        ReprWrapper() CPP98(throw()) CPP23(noexcept) : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                  \
+        ~ReprWrapper() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
+        ReprWrapper() CPP98(throw()) CPP23(noexcept) : Reflection(), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                    \
+        ReprWrapper(const ReprWrapper &other) CPP98(throw()) CPP23(noexcept) : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                       \
+        ReprWrapper &operator=(const ReprWrapper &) CPP98(throw()) CPP23(noexcept) { return *this; }                                                                                                   \
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
         FOR_EACH_PAIR(MAKE_DECL, __VA_ARGS__)                                                                                                                                                          \
         FOR_EACH_PAIR(MAKE_REPR_FN, __VA_ARGS__)                                                                                                                                                       \
@@ -230,7 +233,8 @@ CHAR_REPR(signed char);
     }                                                                                                                                                                                                  \
     template <> struct ReprWrapper<clsId> : public Reflection {                                                                                                                                        \
         void reflect() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
-        ReprWrapper() CPP98(throw()) CPP23(noexcept) : uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                                  \
+        ~ReprWrapper() CPP98(throw()) CPP23(noexcept) {}                                                                                                                                               \
+        ReprWrapper() CPP98(throw()) CPP23(noexcept) : Reflection(), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                                                    \
         ReprWrapper(const ReprWrapper &other) CPP98(throw()) CPP23(noexcept) : Reflection(other), uniqueNameMustComeFirst() FOR_EACH_PAIR(MAKE_MEMBER_INIT_LIST, __VA_ARGS__) {}                       \
         ReprWrapper &operator=(const ReprWrapper &) CPP98(throw()) CPP23(noexcept) { return *this; }                                                                                                   \
         int uniqueNameMustComeFirst;                                                                                                                                                                   \
@@ -627,3 +631,15 @@ template <typename T> static inline std::ostream &operator<<(std::ostream &os, c
         else                                                                                                                                                                                           \
             oss << punct("~") + kwrd(_class) + punct("()") << '\n';                                                                                                                                    \
     } while (false)
+
+#include "AForm.hpp"
+POST_REFLECT_GETTER(AForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade);
+
+#include "ShrubberyCreationForm.hpp"
+POST_REFLECT_GETTER(ShrubberyCreationForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade, std::string, _target);
+
+#include "RobotomyRequestForm.hpp"
+POST_REFLECT_GETTER(RobotomyRequestForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade, std::string, _target);
+
+#include "PresidentialPardonForm.hpp"
+POST_REFLECT_GETTER(PresidentialPardonForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade, std::string, _target);

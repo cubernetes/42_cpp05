@@ -31,14 +31,15 @@ class Bureaucrat : public Reflection {
         GradeTooLowException(std::size_t grade) CPP98(throw()) CPP23(noexcept);
     };
 
-    ~Bureaucrat() CPP98(throw()) CPP23(noexcept);
+    virtual ~Bureaucrat() CPP98(throw()) CPP23(noexcept);
     Bureaucrat() CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
+    Bureaucrat(const std::string &name, std::size_t grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
     Bureaucrat(const std::string &name, std::size_t grade, Logger &_log) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
     Bureaucrat(const Bureaucrat &other) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
     CPP23([[nodiscard]]) Bureaucrat &operator=(Bureaucrat other) CPP98(throw()) CPP23(noexcept);
     CPP23(constexpr) void swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept);
     static const char *_class;
-    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) CPP23(override);
+    CPP23([[nodiscard]]) const std::string getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &getName() const CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) const std::size_t &getGrade() const CPP98(throw()) CPP23(noexcept);
@@ -50,6 +51,7 @@ class Bureaucrat : public Reflection {
     void decrementGrade() CPP98(throw(Bureaucrat::GradeTooLowException)) CPP23(noexcept(false));
 
     void signForm(AForm &f) CPP98(throw()) CPP23(noexcept);
+    void executeForm(AForm &f) CPP98(throw()) CPP23(noexcept);
 };
 
 CPP23(constexpr) void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw()) CPP23(noexcept);

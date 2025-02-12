@@ -61,6 +61,7 @@ endif
 
 CXXFLAGS += -Weffc++
 
+CPPFLAGS += -I.
 CPPFLAGS += -Ilib
 
 # LDLIBS +=
@@ -89,6 +90,9 @@ SRC :=
 vpath %.$(EXT) .
 SRC += Bureaucrat.cpp
 SRC += AForm.cpp
+SRC += ShrubberyCreationForm.cpp
+SRC += RobotomyRequestForm.cpp
+SRC += PresidentialPardonForm.cpp
 SRC += main.cpp
 
 vpath %.$(EXT) lib

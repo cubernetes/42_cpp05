@@ -90,9 +90,9 @@ CPP23([[nodiscard]]) const std::size_t &Form::getSignGrade() const CPP98(throw()
 CPP23([[nodiscard]]) const std::size_t &Form::getExecGrade() const CPP98(throw()) CPP23(noexcept) { return _execGrade; }
 
 // @throws: Form::GradeTooLowException
-void Form::beSigned(const Bureaucrat &b) CPP98(throw(Form::GradeTooLowException)) CPP23(noexcept(false)) {
-    if (b.getGrade() > _signGrade)
-        throw Form::GradeTooLowException(b.getGrade(), _signGrade);
+void Form::beSigned(const Bureaucrat &bureaucrat) CPP98(throw(Form::GradeTooLowException)) CPP23(noexcept(false)) {
+    if (bureaucrat.getGrade() > _signGrade)
+        throw Form::GradeTooLowException(bureaucrat.getGrade(), _signGrade);
     _signed = true;
 }
 
