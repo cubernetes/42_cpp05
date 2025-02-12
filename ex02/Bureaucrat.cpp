@@ -21,8 +21,7 @@ Bureaucrat::~Bureaucrat() CPP98(throw()) CPP23(noexcept) { TRACE_DTOR; }
 const char *Bureaucrat::_class = "Bureaucrat";
 
 // @throws: Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException
-CPP23([[nodiscard]])
-static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
+CPP23([[nodiscard]]) static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(Bureaucrat::GradeTooHighException, Bureaucrat::GradeTooLowException)) CPP23(noexcept(false)) {
     if (grade > Constants::minGrade)
         throw Bureaucrat::GradeTooLowException(grade);
     else if (grade < Constants::maxGrade)
@@ -70,14 +69,12 @@ CPP23([[nodiscard]]) Bureaucrat &Bureaucrat::operator=(Bureaucrat other) CPP98(t
     return *this;
 }
 
-CPP23(constexpr)
-void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
+CPP23(constexpr) void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_grade, other._grade);
 }
 
-CPP23(constexpr)
-void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+CPP23(constexpr) void swap(Bureaucrat &lhs, Bureaucrat &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 CPP23([[nodiscard]]) const std::string Bureaucrat::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &Bureaucrat::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }

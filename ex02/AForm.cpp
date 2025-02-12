@@ -20,8 +20,7 @@ AForm::~AForm() CPP98(throw()) CPP23(noexcept) { TRACE_DTOR; }
 const char *AForm::_class = "AForm";
 
 // @throws: AForm::GradeTooHighException, AForm::GradeTooLowException
-CPP23([[nodiscard]])
-static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) {
+CPP23([[nodiscard]]) static std::size_t &throwIfGradeOutOfBounds(std::size_t &grade) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false)) {
     if (grade > Constants::minGrade)
         throw AForm::GradeTooLowException(grade, Constants::minGrade);
     else if (grade < Constants::maxGrade)
@@ -75,16 +74,14 @@ CPP23([[nodiscard]]) AForm &AForm::operator=(AForm other) CPP98(throw()) CPP23(n
     return *this;
 }
 
-CPP23(constexpr)
-void AForm::swap(AForm &other) CPP98(throw()) CPP23(noexcept) {
+CPP23(constexpr) void AForm::swap(AForm &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_signed, other._signed);
     ::swap(_signGrade, other._signGrade);
     ::swap(_execGrade, other._execGrade);
 }
 
-CPP23(constexpr)
-void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+CPP23(constexpr) void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 CPP23([[nodiscard]]) const std::string AForm::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &AForm::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }
