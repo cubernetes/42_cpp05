@@ -25,7 +25,7 @@ CPP23([[nodiscard]]) Intern &Intern::operator=(const Intern &) CPP98(throw()) CP
 
 const std::string Intern::_forms[] = {SHRUBBERY_CREATION_FORM_NAME, ROBOTOMY_REQUEST_FORM_NAME, PRESIDENTIAL_PARDON_FORM_NAME};
 
-CPP23([[nodisacrd]]) AForm *Intern::makeForm(const std::string &formName, const std::string &formTarget) const CPP98(throw()) CPP23(noexcept) {
+CPP23([[nodiscard]]) AForm *Intern::makeForm(const std::string &formName, const std::string &formTarget) const CPP98(throw()) CPP23(noexcept) {
     CPP23(constexpr) std::size_t nForms = sizeof(_forms) / sizeof(_forms[0]);
     std::size_t i = 0;
     for (; i < nForms; ++i) {
