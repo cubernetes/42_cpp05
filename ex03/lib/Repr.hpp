@@ -632,6 +632,18 @@ template <typename T> static inline std::ostream &operator<<(std::ostream &os, c
             oss << punct("~") + kwrd(_class) + punct("()") << '\n';                                                                                                                                    \
     } while (false)
 
+#define TRACE_COPY_ASSIGN_OP_STATIC                                                                                                                                                                    \
+    do {                                                                                                                                                                                               \
+        Logger::StreamWrapper &oss = CURRENT_TRACE_STREAM_STATIC;                                                                                                                                      \
+        oss << "Calling copy assignment operator: ";                                                                                                                                                   \
+        if (Logger::lastInstance().istrace5())                                                                                                                                                         \
+            oss << "{\"event\":\"copy assignment operator\"}\n";                                                                                                                                       \
+        else if (Logger::lastInstance().istrace2())                                                                                                                                                    \
+            oss << func("operator") + punct("=(const " + kwrd(getClass(*this)) + "&)") + '\n';                                                                                                         \
+        else                                                                                                                                                                                           \
+            oss << func("operator") + punct("=(const " + kwrd(getClass(*this)) + "&)") + '\n';                                                                                                         \
+    } while (false)
+
 #include "AForm.hpp"
 POST_REFLECT_GETTER(AForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade);
 
@@ -643,3 +655,6 @@ POST_REFLECT_GETTER(RobotomyRequestForm, std::string, _name, bool, _signed, std:
 
 #include "PresidentialPardonForm.hpp"
 POST_REFLECT_GETTER(PresidentialPardonForm, std::string, _name, bool, _signed, std::size_t, _signGrade, std::size_t, _execGrade, std::string, _target);
+
+#include "Intern.hpp"
+POST_REFLECT_GETTER(Intern);

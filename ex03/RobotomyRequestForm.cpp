@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <ctime>
 #include <ostream>
 #include <string>
 #include <utility>
@@ -81,6 +82,7 @@ CPP23([[nodiscard]]) const std::string &RobotomyRequestForm::get_target() const 
 // @throws: AForm::GradeTooLowException
 void RobotomyRequestForm::_fulfil() const CPP98(throw()) CPP23(noexcept) {
     log.info() << "Drilling noises..." << std::endl;
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
     if (std::rand() % 2)
         log.warning() << "Oh no! Failed to robotomize " << _target << std::endl;
     else

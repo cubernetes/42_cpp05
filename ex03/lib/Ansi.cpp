@@ -1,5 +1,5 @@
 // https://no-color.org/
-// NO_COLOR=1 ./ex02 -> no color output
+// NO_COLOR=1 ./ex03 -> no color output
 
 #include <cstdlib>
 #include <sstream>

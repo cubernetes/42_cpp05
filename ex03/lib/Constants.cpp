@@ -5,7 +5,7 @@
 
 // leave in .cpp file
 #define HELP_TEXT                                                                                                                                                                                      \
-    "Usage: ./ex02 [options]\n"                                                                                                                                                                        \
+    "Usage: ./ex03 [options]\n"                                                                                                                                                                        \
     "\n"                                                                                                                                                                                               \
     "Options:\n"                                                                                                                                                                                       \
     "    -l LEVEL: Specify loglevel. Supported loglevels are"                                                                                                                                          \
@@ -26,19 +26,19 @@ namespace Constants {
     const std::size_t defaultFormSignGrade = 10;
     const std::size_t defaultFormExecGrade = 20;
 
-    const std::string &shrubberyCreationFormName = "Shrubbery Creation Form";
+    const std::string &shrubberyCreationFormName = SHRUBBERY_CREATION_FORM_NAME;
     const bool defaultShrubberyCreationFormSigned = false;
     const std::size_t shrubberyCreationFormSignGrade = 145;
     const std::size_t shrubberyCreationFormExecGrade = 137;
     const std::string &shrubberyCreationFormDefaultTarget = "Home";
 
-    const std::string &robotomyRequestFormName = "Robotomy Request Form";
+    const std::string &robotomyRequestFormName = ROBOTOMY_REQUEST_FORM_NAME;
     const bool defaultRobotomyRequestFormSigned = false;
     const std::size_t robotomyRequestFormSignGrade = 72;
     const std::size_t robotomyRequestFormExecGrade = 45;
     const std::string &robotomyRequestFormDefaultTarget = "Blender";
 
-    const std::string &presidentialPardonFormName = "Presidential Pardon Form";
+    const std::string &presidentialPardonFormName = PRESIDENTIAL_PARDON_FORM_NAME;
     const bool defaultPresidentialPardonFormSigned = false;
     const std::size_t presidentialPardonFormSignGrade = 25;
     const std::size_t presidentialPardonFormExecGrade = 5;

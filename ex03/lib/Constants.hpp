@@ -3,6 +3,10 @@
 #include <cstddef>
 #include <string>
 
+#define SHRUBBERY_CREATION_FORM_NAME "Shrubbery Creation Form"
+#define ROBOTOMY_REQUEST_FORM_NAME "Robotomy Request Form"
+#define PRESIDENTIAL_PARDON_FORM_NAME "Presidential Pardon Form"
+
 namespace Constants {
     extern const std::size_t minGrade;
     extern const std::size_t maxGrade;
