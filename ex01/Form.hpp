@@ -35,8 +35,8 @@ class Form : public Reflection {
     Form() CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
     Form(const std::string &name, bool signed_, std::size_t signGrade, std::size_t execGrade, Logger &_log) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException))
         CPP23(noexcept(false));
-    Form(const Form &) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
-    Form &operator=(Form) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
+    Form(const Form &other) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
+    Form &operator=(Form other) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
     CPP23(constexpr)
     void swap(Form &other) CPP98(throw(Form::GradeTooHighException, Form::GradeTooLowException)) CPP23(noexcept(false));
     static const char *_class;
