@@ -74,14 +74,14 @@ CPP23([[nodiscard]]) Form &Form::operator=(Form other) CPP98(throw()) CPP23(noex
     return *this;
 }
 
-CPP23(constexpr) void Form::swap(Form &other) CPP98(throw()) CPP23(noexcept) {
+void Form::swap(Form &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_signed, other._signed);
     ::swap(_signGrade, other._signGrade);
     ::swap(_execGrade, other._execGrade);
 }
 
-CPP23(constexpr) void swap(Form &lhs, Form &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
+void swap(Form &lhs, Form &rhs) CPP98(throw()) CPP23(noexcept) { lhs.swap(rhs); }
 CPP23([[nodiscard]]) const std::string Form::getClass(const Reflection &) const CPP98(throw()) CPP23(noexcept) { return _class; }
 
 CPP23([[nodiscard]]) const std::string &Form::getName() const CPP98(throw()) CPP23(noexcept) { return _name; }
@@ -96,11 +96,11 @@ void Form::beSigned(const Bureaucrat &bureaucrat) CPP98(throw(Form::GradeTooLowE
     _signed = true;
 }
 
-Form::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
+Form::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept) {};
 Form::GradeTooHighException::GradeTooHighException(std::size_t grade, std::size_t maxGrade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Grade is too high: " + Utils::STR(grade) + ", maximum allowed grade is " + Utils::STR(maxGrade)) {}
 
-Form::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept){};
+Form::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept) {};
 Form::GradeTooLowException::GradeTooLowException(std::size_t grade, std::size_t minGrade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Grade is too low: " + Utils::STR(grade) + ", minimum required grade is " + Utils::STR(minGrade)) {}
 

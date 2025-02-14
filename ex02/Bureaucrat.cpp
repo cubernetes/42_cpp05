@@ -79,7 +79,7 @@ CPP23([[nodiscard]]) Bureaucrat &Bureaucrat::operator=(Bureaucrat other) CPP98(t
     return *this;
 }
 
-CPP23(constexpr) void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
+void Bureaucrat::swap(Bureaucrat &other) CPP98(throw()) CPP23(noexcept) {
     ::swap(_name, other._name);
     ::swap(_grade, other._grade);
 }
@@ -130,11 +130,11 @@ void Bureaucrat::executeForm(AForm &f) CPP98(throw()) CPP23(noexcept) {
     }
 }
 
-Bureaucrat::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
+Bureaucrat::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept) {};
 Bureaucrat::GradeTooHighException::GradeTooHighException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Bureaucrat's grade cannot be set to " + Utils::STR(grade) + ", maximum grade allowed is " + Utils::STR(Constants::maxGrade)) {}
 
-Bureaucrat::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept){};
+Bureaucrat::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept) {};
 Bureaucrat::GradeTooLowException::GradeTooLowException(std::size_t grade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Bureaucrat's grade cannot be set to " + Utils::STR(grade) + ", minimum grade allowed is " + Utils::STR(Constants::minGrade)) {}
 

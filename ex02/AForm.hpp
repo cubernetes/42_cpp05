@@ -53,7 +53,7 @@ class AForm {
         CPP23(noexcept(false));
     AForm(const AForm &other) CPP98(throw(AForm::GradeTooHighException, AForm::GradeTooLowException)) CPP23(noexcept(false));
     CPP23([[nodiscard]]) AForm &operator=(AForm other) CPP98(throw()) CPP23(noexcept);
-    CPP23(constexpr) void swap(AForm &other) CPP98(throw()) CPP23(noexcept);
+    void swap(AForm &other) CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) virtual std::string repr() CPP98(throw()) CPP23(noexcept);
 
     CPP23([[nodiscard]]) const std::string &get_name() const CPP98(throw()) CPP23(noexcept);

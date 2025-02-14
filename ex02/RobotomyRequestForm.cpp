@@ -65,7 +65,7 @@ CPP23([[nodiscard]]) RobotomyRequestForm &RobotomyRequestForm::operator=(Robotom
     return *this;
 }
 
-CPP23(constexpr) void RobotomyRequestForm::swap(RobotomyRequestForm &other) CPP98(throw()) CPP23(noexcept) {
+void RobotomyRequestForm::swap(RobotomyRequestForm &other) CPP98(throw()) CPP23(noexcept) {
     TRACE_SWAP_BEGIN;
     ::swap(static_cast<AForm &>(*this), static_cast<AForm &>(other));
     ::swap(_target, other._target);

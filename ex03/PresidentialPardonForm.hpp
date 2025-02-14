@@ -21,7 +21,7 @@ class PresidentialPardonForm : public AForm {
     PresidentialPardonForm(const std::string &target, Logger &_log) CPP98(throw(PresidentialPardonForm::GradeTooHighException, PresidentialPardonForm::GradeTooLowException)) CPP23(noexcept(false));
     PresidentialPardonForm(const PresidentialPardonForm &other) CPP98(throw(PresidentialPardonForm::GradeTooHighException, PresidentialPardonForm::GradeTooLowException)) CPP23(noexcept(false));
     CPP23([[nodiscard]]) PresidentialPardonForm &operator=(PresidentialPardonForm other) CPP98(throw()) CPP23(noexcept);
-    CPP23(constexpr) void swap(PresidentialPardonForm &other) CPP98(throw()) CPP23(noexcept);
+    void swap(PresidentialPardonForm &other) CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) std::string repr() CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &get_target() const CPP98(throw()) CPP23(noexcept);

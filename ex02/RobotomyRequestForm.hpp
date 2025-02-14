@@ -21,7 +21,7 @@ class RobotomyRequestForm : public AForm {
     RobotomyRequestForm(const std::string &target, Logger &_log) CPP98(throw(RobotomyRequestForm::GradeTooHighException, RobotomyRequestForm::GradeTooLowException)) CPP23(noexcept(false));
     RobotomyRequestForm(const RobotomyRequestForm &other) CPP98(throw(RobotomyRequestForm::GradeTooHighException, RobotomyRequestForm::GradeTooLowException)) CPP23(noexcept(false));
     RobotomyRequestForm &operator=(RobotomyRequestForm other) CPP98(throw()) CPP23(noexcept);
-    CPP23(constexpr) void swap(RobotomyRequestForm &other) CPP98(throw()) CPP23(noexcept);
+    void swap(RobotomyRequestForm &other) CPP98(throw()) CPP23(noexcept);
     CPP23([[nodiscard]]) std::string repr() CPP98(throw()) CPP23(noexcept override);
 
     CPP23([[nodiscard]]) const std::string &get_target() const CPP98(throw()) CPP23(noexcept);

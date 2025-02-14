@@ -64,7 +64,7 @@ CPP23([[nodiscard]]) ShrubberyCreationForm &ShrubberyCreationForm::operator=(Shr
     return *this;
 }
 
-CPP23(constexpr) void ShrubberyCreationForm::swap(ShrubberyCreationForm &other) CPP98(throw()) CPP23(noexcept) {
+void ShrubberyCreationForm::swap(ShrubberyCreationForm &other) CPP98(throw()) CPP23(noexcept) {
     TRACE_SWAP_BEGIN;
     ::swap(static_cast<AForm &>(*this), static_cast<AForm &>(other));
     ::swap(_target, other._target);

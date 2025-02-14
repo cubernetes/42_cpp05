@@ -65,7 +65,7 @@ CPP23([[nodiscard]]) PresidentialPardonForm &PresidentialPardonForm::operator=(P
     return *this;
 }
 
-CPP23(constexpr) void PresidentialPardonForm::swap(PresidentialPardonForm &other) CPP98(throw()) CPP23(noexcept) {
+void PresidentialPardonForm::swap(PresidentialPardonForm &other) CPP98(throw()) CPP23(noexcept) {
     TRACE_SWAP_BEGIN;
     ::swap(static_cast<AForm &>(*this), static_cast<AForm &>(other));
     ::swap(_target, other._target);

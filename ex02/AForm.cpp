@@ -80,7 +80,7 @@ CPP23([[nodiscard]]) AForm &AForm::operator=(AForm other) CPP98(throw()) CPP23(n
     return *this;
 }
 
-CPP23(constexpr) void AForm::swap(AForm &other) CPP98(throw()) CPP23(noexcept) {
+void AForm::swap(AForm &other) CPP98(throw()) CPP23(noexcept) {
     TRACE_SWAP_BEGIN;
     ::swap(_name, other._name);
     ::swap(_signed, other._signed);
@@ -117,15 +117,15 @@ void AForm::execute(const Bureaucrat &executor) const CPP98(throw(AForm::GradeTo
     _fulfil();
 }
 
-AForm::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept){};
+AForm::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept) {};
 AForm::GradeTooHighException::GradeTooHighException(std::size_t grade, std::size_t maxGrade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Grade is too high: " + Utils::STR(grade) + ", maximum allowed grade is " + Utils::STR(maxGrade)) {}
 
-AForm::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept){};
+AForm::GradeTooLowException::~GradeTooLowException() CPP98(throw()) CPP23(noexcept) {};
 AForm::GradeTooLowException::GradeTooLowException(std::size_t grade, std::size_t minGrade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Grade is too low: " + Utils::STR(grade) + ", minimum required grade is " + Utils::STR(minGrade)) {}
 
-AForm::FormNotSignedException::~FormNotSignedException() CPP98(throw()) CPP23(noexcept){};
+AForm::FormNotSignedException::~FormNotSignedException() CPP98(throw()) CPP23(noexcept) {};
 AForm::FormNotSignedException::FormNotSignedException(const std::string &name) CPP98(throw()) CPP23(noexcept) : std::logic_error("Form " + name + " is not signed, cannot execute") {}
 
 std::ostream &operator<<(std::ostream &os, const AForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

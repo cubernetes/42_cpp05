@@ -38,7 +38,7 @@ CFLAGS += -Wdouble-promotion
 CFLAGS += -Wformat=2
 
 ifeq ($(CPP23), 1)
-CFLAGS += -std=c++23
+CFLAGS += -std=c++2b
 CPPFLAGS += -DCOMPILING_FOR_CPP23=1
 else
 CFLAGS += -std=c++98
@@ -46,12 +46,12 @@ endif
 
 CFLAGS += -fdiagnostics-color=always
 ifeq ($(strip $(CXX)),clang++)
-CFLAGS += -ferror-limit=1
+#CFLAGS += -ferror-limit=1
 # clang-specific warnings
 CFLAGS += -Wreturn-stack-address
 CFLAGS += -Wdangling-gsl
 else ifeq ($(strip $(CXX)),g++)
-CFLAGS += -fmax-errors=1
+#CFLAGS += -fmax-errors=1
 # gcc-specific warnings
 CFLAGS += -Wduplicated-cond
 CFLAGS += -Wduplicated-branches
