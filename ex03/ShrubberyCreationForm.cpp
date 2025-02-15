@@ -1,4 +1,4 @@
-#include <ostream>
+#include <fstream>
 #include <string>
 #include <utility>
 
@@ -78,7 +78,16 @@ CPP23([[nodiscard]]) std::string ShrubberyCreationForm::repr() CPP98(throw()) CP
 CPP23([[nodiscard]]) const std::string &ShrubberyCreationForm::get_target() const CPP98(throw()) CPP23(noexcept) { return _target; }
 
 // @throws: AForm::GradeTooLowException
-void ShrubberyCreationForm::_fulfil() const CPP98(throw()) CPP23(noexcept) { log.info() << "Creating file " << _target << "_shrubbery with ASCII tree inside" << std::endl; }
+void ShrubberyCreationForm::_fulfil() const CPP98(throw()) CPP23(noexcept) {
+    std::string fileName = _target + "_shrubbery";
+    std::ofstream file(fileName.c_str());
+    if (file) {
+        log.info() << "Creating file " << fileName << " with ASCII tree inside" << std::endl;
+        file << ASCII_TREE;
+    } else {
+        log.info() << "Failed to create file " << fileName << ", can't do anything, you're on your own!" << std::endl;
+    }
+}
 
 CPP23([[nodiscard]]) std::ostream &operator<<(std::ostream &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 CPP23([[nodiscard]]) Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

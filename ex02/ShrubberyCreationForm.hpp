@@ -7,6 +7,29 @@
 #include "Logger.hpp"
 #include "Opt.h"
 
+#define ASCII_TREE                                                                                                                                                                                     \
+    "                & &&&&\n"                                                                                                                                                                         \
+    "          & & && &&&&& &\n"                                                                                                                                                                       \
+    "               &  &&&  &&\n"                                                                                                                                                                      \
+    "        &          &/|\\   &\n"                                                                                                                                                                   \
+    "       &&&&&        |/&&\n"                                                                                                                                                                       \
+    "      &&& &&       |/\n"                                                                                                                                                                          \
+    "     &&&& & &     /~\n"                                                                                                                                                                           \
+    "      && \\&&&&___/|\\\n"                                                                                                                                                                         \
+    "           \\_& \\_/|\\\n"                                                                                                                                                                        \
+    "                 /~\\\n"                                                                                                                                                                          \
+    "                 /~/                 &&\n"                                                                                                                                                        \
+    "                /~\\|                  & &\n"                                                                                                                                                     \
+    "                   /~/   \\_/ / _/\\|\\|_&&&&\n"                                                                                                                                                  \
+    "                  |/~  / __//    //__/&&&&& &\n"                                                                                                                                                  \
+    "                /~|/  /|              &&&&\n"                                                                                                                                                     \
+    "                |/~ / _/           & &&&&&\n"                                                                                                                                                     \
+    "              /~~                   & &\n"                                                                                                                                                        \
+    ":___________./~~~\\.___________:\n"                                                                                                                                                               \
+    " \\                           /\n"                                                                                                                                                                \
+    "  \\_________________________/\n"                                                                                                                                                                 \
+    "  (_)                     (_)\n"
+
 class ShrubberyCreationForm : public AForm {
     static void trace_arg_ctor1(const std::string &target) CPP98(throw()) CPP23(noexcept);
     static void trace_default_ctor() CPP98(throw()) CPP23(noexcept);
