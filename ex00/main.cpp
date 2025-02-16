@@ -59,7 +59,7 @@ void testJane(Logger &log) {
     try {
         log.info() << "Calling first jane.decrementGrade()" << std::endl;
         jane.decrementGrade();
-        log.info() << "John now: " << jane << std::endl << std::endl;
+        log.info() << "Jane now: " << jane << std::endl << std::endl;
     } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
         Logger::lastInstance().error() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
     }
@@ -67,7 +67,7 @@ void testJane(Logger &log) {
     try {
         log.info() << "Calling second jane.decrementGrade()" << std::endl;
         jane.decrementGrade();
-        log.info() << "John now: " << jane << std::endl << std::endl;
+        log.info() << "Jane now: " << jane << std::endl << std::endl;
     } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
         Logger::lastInstance().error() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
     }
@@ -75,7 +75,7 @@ void testJane(Logger &log) {
     try {
         log.info() << "Calling third jane.decrementGrade()" << std::endl;
         jane.decrementGrade();
-        log.info() << "John now: " << jane << std::endl << std::endl;
+        log.info() << "Jane now: " << jane << std::endl << std::endl;
     } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
         Logger::lastInstance().error() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n" << std::endl;
     }
@@ -83,7 +83,7 @@ void testJane(Logger &log) {
     try {
         log.info() << "Calling fourth jane.decrementGrade()" << std::endl;
         jane.decrementGrade();
-        log.info() << "John now: " << jane << std::endl << std::endl << std::endl;
+        log.info() << "Jane now: " << jane << std::endl << std::endl << std::endl;
     } catch (const Bureaucrat::GradeTooLowException &gradeTooLow) {
         Logger::lastInstance().error() << "Caught GradeTooLowException: " << ansi::red(gradeTooLow.what()) << ", continuing anyway\n\n" << std::endl;
     }
