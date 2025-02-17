@@ -117,6 +117,9 @@ void AForm::execute(const Bureaucrat &executor) const CPP98(throw(AForm::GradeTo
     _fulfil();
 }
 
+CPP23([[nodiscard]]) AForm *AForm::createForm(const std::string &) CPP98(throw()) CPP23(noexcept) { std::terminate(); }
+const std::string &AForm::formName = "Abstract Form";
+
 AForm::GradeTooHighException::~GradeTooHighException() CPP98(throw()) CPP23(noexcept) {};
 AForm::GradeTooHighException::GradeTooHighException(std::size_t grade, std::size_t maxGrade) CPP98(throw()) CPP23(noexcept)
     : std::range_error("Grade is too high: " + Utils::STR(grade) + ", maximum allowed grade is " + Utils::STR(maxGrade)) {}

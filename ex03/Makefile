@@ -38,7 +38,7 @@ CFLAGS += -Wdouble-promotion
 CFLAGS += -Wformat=2
 
 ifeq ($(CPP23), 1)
-CFLAGS += -std=c++2b
+CFLAGS += -std=c++20
 CPPFLAGS += -DCOMPILING_FOR_CPP23=1
 else
 CFLAGS += -std=c++98

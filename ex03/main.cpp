@@ -32,7 +32,7 @@ int main(int ac, char **av) {
         }
         log.info << std::endl;
 
-        form = intern0.makeForm("Robotomy Request Form", "Home");
+        form = intern0.makeForm("Robotomy Request Form", "Dolores");
 
         if (form) {
             gigachadBureaucrat.signForm(*form);
@@ -41,7 +41,7 @@ int main(int ac, char **av) {
         }
         log.info << std::endl;
 
-        form = intern0.makeForm("Presidential Pardon Form", "Home");
+        form = intern0.makeForm("Presidential Pardon Form", "Aaron Swartz");
 
         if (form) {
             gigachadBureaucrat.signForm(*form);
@@ -50,7 +50,7 @@ int main(int ac, char **av) {
         }
         log.info << std::endl;
 
-        form = intern0.makeForm("New 42 Hoodie Request Form", "Home");
+        form = intern0.makeForm("New 42 Hoodie Request Form", "Kars");
 
         if (form) {
             gigachadBureaucrat.signForm(*form);

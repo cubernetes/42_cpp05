@@ -28,6 +28,9 @@ class PresidentialPardonForm : public AForm {
 
     // @throws: AForm::GradeTooLowException
     void _fulfil() const CPP98(throw()) CPP23(noexcept override);
+
+    CPP23([[nodiscard]]) static AForm *createForm(const std::string &target) CPP98(throw()) CPP23(noexcept);
+    static const std::string formName;
 };
 
 void swap(PresidentialPardonForm &lhs, PresidentialPardonForm &rhs) CPP98(throw()) CPP23(noexcept);

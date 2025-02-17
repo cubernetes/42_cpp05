@@ -89,5 +89,8 @@ void ShrubberyCreationForm::_fulfil() const CPP98(throw()) CPP23(noexcept) {
     }
 }
 
+CPP23([[nodiscard]]) AForm *ShrubberyCreationForm::createForm(const std::string &target) CPP98(throw()) CPP23(noexcept) { return new ShrubberyCreationForm(target); }
+const std::string ShrubberyCreationForm::formName = SHRUBBERY_CREATION_FORM_NAME;
+
 CPP23([[nodiscard]]) std::ostream &operator<<(std::ostream &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 CPP23([[nodiscard]]) Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const ShrubberyCreationForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

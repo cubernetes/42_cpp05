@@ -1,12 +1,13 @@
 #pragma once /* Intern.hpp */
 
 #include <string>
+#include <utility>
 
 #include "AForm.hpp"
 #include "Opt.h"
 
 class Intern {
-    static const std::string _forms[];
+    static const std::pair<const std::string, AForm *(*)(const std::string &)> _formFactories[];
     static const char *_class;
 
   public:

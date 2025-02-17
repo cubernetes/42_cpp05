@@ -89,5 +89,8 @@ void RobotomyRequestForm::_fulfil() const CPP98(throw()) CPP23(noexcept) {
         log.info() << "Successfully robotomized " << _target << std::endl;
 }
 
+CPP23([[nodiscard]]) AForm *RobotomyRequestForm::createForm(const std::string &target) CPP98(throw()) CPP23(noexcept) { return new RobotomyRequestForm(target); }
+const std::string RobotomyRequestForm::formName = ROBOTOMY_REQUEST_FORM_NAME;
+
 CPP23([[nodiscard]]) std::ostream &operator<<(std::ostream &os, const RobotomyRequestForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 CPP23([[nodiscard]]) Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const RobotomyRequestForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

@@ -81,5 +81,8 @@ CPP23([[nodiscard]]) const std::string &PresidentialPardonForm::get_target() con
 // @throws: AForm::GradeTooLowException
 void PresidentialPardonForm::_fulfil() const CPP98(throw()) CPP23(noexcept) { log.info() << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl; }
 
+CPP23([[nodiscard]]) AForm *PresidentialPardonForm::createForm(const std::string &target) CPP98(throw()) CPP23(noexcept) { return new PresidentialPardonForm(target); }
+const std::string PresidentialPardonForm::formName = PRESIDENTIAL_PARDON_FORM_NAME;
+
 CPP23([[nodiscard]]) std::ostream &operator<<(std::ostream &os, const PresidentialPardonForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }
 CPP23([[nodiscard]]) Logger::StreamWrapper &operator<<(Logger::StreamWrapper &os, const PresidentialPardonForm &val) CPP98(throw()) CPP23(noexcept) { return os << repr(val); }

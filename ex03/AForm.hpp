@@ -23,6 +23,7 @@ class AForm {
     std::size_t _execGrade;
     Logger &log;
 
+    // override this function
     // NOTE: NOT pure virtual since we're adopting the copy-swap idiom throughout, which disallows pure functions and relies on object slicing.
     // Going the other route would require inconsistent derived-class implementations (needlessly mixing copy-swap implementation with other copy assignment code)
     // and you would lose the strong exception guarantee, although arguably needless in this project. This project is for learning anyways, so whatever.
@@ -66,6 +67,11 @@ class AForm {
 
     // @throws: AForm::GradeTooLowException, AForm::FormNotSignedException
     void execute(const Bureaucrat &executor) const CPP98(throw(AForm::GradeTooLowException, AForm::FormNotSignedException)) CPP23(noexcept(false));
+
+    // override this functions
+    // the _fulfil function as to why this is not a pure virtual function
+    CPP23([[nodiscard]]) static AForm *createForm(const std::string &target) CPP98(throw()) CPP23(noexcept);
+    static const std::string &formName;
 };
 
 void swap(AForm &lhs, AForm &rhs) CPP98(throw()) CPP23(noexcept);
